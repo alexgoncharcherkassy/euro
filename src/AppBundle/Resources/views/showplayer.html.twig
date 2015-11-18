@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>EURO 2016</h1>
+
+    <p>{{ players }}</p>
+    <a href="{{ path('homepage') }}">HOME</a>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background: #85ffbd;
+            font: 18px/1.5 sans-serif;
+        }
+    </style>
+{% endblock %}
+

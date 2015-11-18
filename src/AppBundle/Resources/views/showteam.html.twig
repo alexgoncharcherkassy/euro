@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>EURO 2016</h1>
+    {% for team in teams %}
+    <a href="{{ path('euro_show_country', {'team': team.id}) }}">{{ team.country }} </a>
+    {% endfor %}
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background: #85ffbd;
+            font: 18px/1.5 sans-serif;
+        }
+    </style>
+{% endblock %}
+
