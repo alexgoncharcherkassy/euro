@@ -2,7 +2,7 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
-errorpage:
+app_static:
     path: /error
     defaults:
         _controller: FrameworkBundle:Template:template

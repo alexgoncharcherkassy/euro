@@ -24,6 +24,8 @@ class EuroController extends Controller
         $arr = array();
         if ($team == 1) {
             $arr =array(1=> ['id' => '1', 'country' => 'Ukraine', 'group' => 'A']);
+        } else {
+            $this->redirect('/error');
         }
 
         return $this->render("AppBundle::showteam.html.twig", array('teams' => $arr));
