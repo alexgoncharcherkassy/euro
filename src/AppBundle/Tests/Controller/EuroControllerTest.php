@@ -8,8 +8,31 @@
 
 namespace AppBundle\Tests\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class EuroControllerTest extends \PHPUnit_Framework_TestCase
+class EuroControllerTest extends WebTestCase
 {
+    public function testShowTeam()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/1');
+        $this->assertContains('Coach:', $crawler->filter('body')->text());
+    }
+
+    public function testShowCountry()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/1/description');
+        $this->assertContains('WIKI', $crawler->filter('body')->text());
+    }
+
+    public function testShowCoach()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', 'https://en.wikipedia.org/wiki/Vicente_del_Bosque');
+        $this->assertContains('Wikipedia', $crawler->filter('body')->text());
+
+    }
 
 }
+
