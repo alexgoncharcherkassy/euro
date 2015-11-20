@@ -80,6 +80,14 @@ class EuroController extends Controller
     }
 
     /**
+     * @Route("/players/{player}", name = "euro_show_player")
+     */
+    public function showPlayerAction($player)
+    {
+       return [];
+    }
+
+    /**
      * @Route("/coaches/{coach}", name = "euro_show_coach", requirements={"team" : "\d+"})
      */
     public function showCoachAction($coach)
