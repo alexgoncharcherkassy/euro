@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="jumbotron">
+            <p>
+                Country:  <a href="{{ path('euro_show_country', {'team': 0}) }}"> {{ country.country }} </a>
+            </p>
+            <p>
+                Coach: <a href="{{ path('euro_show_coach', {'coach': 0}) }}"> {{ coaches.firstName[0] }} {{ coaches.lastName[0] }} </a>
+            </p>
+            <table class="table table-striped">
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                {% for i in 0..10 %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('euro_show_player', {'player': i}) }}">{{ players.firstName[i] }}</a></td>
+                        <td><a href="{{ path('euro_show_player', {'player': i}) }}">{{ players.lastName[i] }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div> <!-- /container -->
+
+{% endblock %}
+

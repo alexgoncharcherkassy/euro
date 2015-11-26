@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="jumbotron">
+            <p>
+                Country:   {{ country.country }}
+            </p>
+            <p>
+                {{ country.description }}
+            </p>
+
+        </div>
+    </div> <!-- /container -->
+
+{% endblock %}
+
