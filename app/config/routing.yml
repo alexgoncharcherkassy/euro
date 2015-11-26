@@ -1,0 +1,10 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+app_static:
+    path: /error
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    static/errorpage.html.twig
+
