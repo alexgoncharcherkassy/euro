@@ -9,11 +9,21 @@
                 <th>#</th>
                 <th>Team</th>
                 <th>Group</th>
+                <th>Count</th>
+                <th>Win</th>
+                <th>Draw</th>
+                <th>Defeat</th>
+                <th>Points</th>
                 {% for i in 0..10 %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('euro_show_team', {'team': i}) }}">{{ teams.country[i] }}</a></td>
-                        <td>{{ teams.groups[i] }}</td>
+                        <td><strong>{{ teams.groups[i] }}</strong></td>
+                        <td>{{ result.countGame[i] }}</td>
+                        <td>{{ result.winGame[i] }}</td>
+                        <td>{{ result.drawGame[i] }}</td>
+                        <td>{{ result.defeatGame[i] }}</td>
+                        <td>{{ result.points[i] }}</td>
                     </tr>
                 {% endfor %}
             </table>

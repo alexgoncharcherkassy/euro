@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Model\Result;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,6 +21,9 @@ class DefaultController extends Controller
         $team = new Team();
         $team->faker(11);
 
-        return ['teams' => $team];
+        $result = new Result();
+        $result->faker(11);
+
+        return ['teams' => $team, 'result' => $result];
     }
 }

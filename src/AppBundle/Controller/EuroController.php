@@ -9,6 +9,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Model\Coach;
 use AppBundle\Model\Country;
+use AppBundle\Model\Match;
 use AppBundle\Model\Player;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -74,5 +75,18 @@ class EuroController extends Controller
         $coaches->faker(1);
 
         return ['coaches' => $coaches];
+    }
+
+    /**
+     * @param $match
+     * @Route("/matches/{match}", name="euro_show_match", requirements={"match" : "\d+"})
+     * @Template("@App/euro/showMatch.html.twig")
+     */
+    public function showMatchAction($match)
+    {
+        $matches = new Match();
+        $matches->faker(20);
+
+        return ['matches' => $matches];
     }
 }
