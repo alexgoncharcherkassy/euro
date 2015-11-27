@@ -16,21 +16,37 @@ class EuroControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/1');
-        $this->assertContains('Coach:', $crawler->filter('body')->text());
+        $this->assertContains('Team:', $crawler->filter('body')->text());
     }
 
     public function testShowCountry()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/1/description');
-        $this->assertContains('WIKI', $crawler->filter('body')->text());
+        $this->assertContains('Country:', $crawler->filter('body')->text());
     }
 
     public function testShowCoach()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', 'https://en.wikipedia.org/wiki/Vicente_del_Bosque');
-        $this->assertContains('Wikipedia', $crawler->filter('body')->text());
+        $crawler = $client->request('GET', '/coaches/1');
+        $this->assertContains('Coach:', $crawler->filter('body')->text());
+
+    }
+
+    public function testShowPlayer()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/players/1');
+        $this->assertContains('Player:', $crawler->filter('body')->text());
+
+    }
+
+    public function testShowMatch()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/matches/1');
+        $this->assertContains('Matches:', $crawler->filter('body')->text());
 
     }
 
