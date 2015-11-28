@@ -45,7 +45,7 @@ class EuroControllerTest extends WebTestCase
     public function testShowMatch()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/matches/1');
+        $crawler = $client->request('GET', '/matches/0');
         $this->assertContains('Matches:', $crawler->filter('body')->text());
 
     }
