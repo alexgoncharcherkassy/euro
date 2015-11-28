@@ -15,25 +15,11 @@ namespace AppBundle\Model;
  */
 class Result
 {
-    /**
-     * @var array
-     */
+
     protected $countGame = array();
-    /**
-     * @var array
-     */
     protected $winGame = array();
-    /**
-     * @var array
-     */
     protected $drawGame = array();
-    /**
-     * @var array
-     */
     protected $defeatGame = array();
-    /**
-     * @var array
-     */
     protected $points = array();
 
     /**

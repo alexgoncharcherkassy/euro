@@ -19,13 +19,9 @@ class Match
 {
 
     protected $team1 = array();
-
     protected $team2 = array();
-
     protected $goals1 = array();
-
     protected $goals2 = array();
-
     protected $dateMatch = array();
 
     /**

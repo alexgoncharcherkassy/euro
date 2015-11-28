@@ -77,7 +77,6 @@ class EuroController extends Controller
     }
 
     /**
-     * @param $match
      * @Route("/matches/{match}", name="euro_show_match", requirements={"match" : "\d+"})
      * @Template("@App/euro/showMatch.html.twig")
      */

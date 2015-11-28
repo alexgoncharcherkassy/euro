@@ -6,8 +6,10 @@
  * Time: 12:49
  */
 
-namespace AppBundle\Model;
+namespace AppBundle\Tests\Model;
 
+
+use AppBundle\Model\Match;
 
 class MatchTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,3 +26,4 @@ class MatchTest extends \PHPUnit_Framework_TestCase
     }
 
 }
+
