@@ -53,7 +53,7 @@ class EuroController extends Controller
     }
 
     /**
-     * @Route("/players/{player}", name = "euro_show_player")
+     * @Route("/players/{player}", name = "euro_show_player", requirements={"player" : "\d+"})
      * @Template("@App/euro/showPlayer.html.twig")
      */
     public function showPlayerAction($player)
@@ -65,7 +65,7 @@ class EuroController extends Controller
     }
 
     /**
-     * @Route("/coaches/{coach}", name = "euro_show_coach", requirements={"team" : "\d+"})
+     * @Route("/coaches/{coach}", name = "euro_show_coach", requirements={"coach" : "\d+"})
      * @Template("@App/euro/showCoach.html.twig")
      */
     public function showCoachAction($coach)
