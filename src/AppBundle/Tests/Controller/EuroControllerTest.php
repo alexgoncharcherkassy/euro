@@ -16,7 +16,7 @@ class EuroControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/1');
-        $this->assertContains('Team:', $crawler->filter('body')->text());
+        $this->assertContains('Country:', $crawler->filter('body')->text());
     }
 
     public function testShowCountry()
@@ -46,7 +46,7 @@ class EuroControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/matches/0');
-        $this->assertContains('Matches:', $crawler->filter('body')->text());
+        $this->assertContains('Matches', $crawler->filter('body')->text());
 
     }
 

@@ -18,8 +18,8 @@ class CountryTest extends \PHPUnit_Framework_TestCase
         $country = new Country();
         $country->faker();
 
-        $this->assertTrue($country->getCountry());
-        $this->assertTrue($country->getDescription());
+        $this->assertInternalType('string', $country->getCountry());
+        $this->assertInternalType('string', $country->getDescription());
     }
 
 }
