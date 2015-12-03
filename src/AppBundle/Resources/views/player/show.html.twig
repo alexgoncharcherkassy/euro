@@ -1,22 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    {{ parent() }}
+{% block content %}
 
 
     <div class="container">
         <div class="jumbotron">
 
             <p>
-                Coach:  {{ coaches.firstName[0] }} {{ coaches.lastName[0] }}
+                Player:  {{ players.firstName[0] }} {{ players.lastName[0] }}
             </p>
             <p>
-                Birth Day: {{ coaches.birthDay[0]|date('d-m-Y') }}
+                Birth Day: {{ players.birthDay[0]|date('d-m-Y') }}
             </p>
             <p>
-                {{ coaches.biography[0] }}
+                {{ players.biography[0] }}
             </p>
-
         </div>
     </div> <!-- /container -->
 

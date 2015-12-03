@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    {{ parent() }}
+{% block content %}
 
     <div class="container">
         <div class="jumbotron">
@@ -14,16 +13,11 @@
                 <th>Draw</th>
                 <th>Defeat</th>
                 <th>Points</th>
-                {% for i in 0..10 %}
+                {% for team in teams %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('euro_show_team', {'team': i}) }}">{{ teams.country[i] }}</a></td>
-                        <td><strong>{{ teams.groups[i] }}</strong></td>
-                        <td>{{ result.countGame[i] }}</td>
-                        <td>{{ result.winGame[i] }}</td>
-                        <td>{{ result.drawGame[i] }}</td>
-                        <td>{{ result.defeatGame[i] }}</td>
-                        <td>{{ result.points[i] }}</td>
+                        <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country }}</a></td>
+                        <td><strong>{{ team.groups }}</strong></td>
                     </tr>
                 {% endfor %}
             </table>

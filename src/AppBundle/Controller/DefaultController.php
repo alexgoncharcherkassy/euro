@@ -2,11 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Model\Result;
+use AppBundle\Entity\Team;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Model\Team;
+use Faker\Factory;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -18,12 +19,16 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $team = new Team();
-        $team->faker(11);
+        $teams = $this->getDoctrine()
+            ->getRepository('AppBundle:Team')
+            ->findAll();
 
-        $result = new Result();
-        $result->faker(11);
+        if (!$teams) {
+            throw $this->createNotFoundException(
+                'Not found');
+        }
 
-        return ['teams' => $team, 'result' => $result];
+        return ['teams' => $teams];
     }
+
 }
