@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <table class="table table-striped">
+                <th>#</th>
+                <th>Team</th>
+                <th>Group</th>
+                <th>Count</th>
+                <th>Win</th>
+                <th>Draw</th>
+                <th>Defeat</th>
+                <th>Points</th>
+                {% for team in teams %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country }}</a></td>
+                        <td><strong>{{ team.groups }}</strong></td>
+                        <td><strong>{{ team.results.countGame }}</strong></td>
+                        <td><strong>{{ team.results.winGame }}</strong></td>
+                        <td><strong>{{ team.results.drawGame }}</strong></td>
+                        <td><strong>{{ team.results.defeatGame }}</strong></td>
+                        <td><strong>{{ team.results.points }}</strong></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div> <!-- /container -->
+
+
+{% endblock %}
+
+

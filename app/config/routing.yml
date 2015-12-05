@@ -2,9 +2,9 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
-app_static:
-    path: /error
+about:
+    path: /about
     defaults:
         _controller: FrameworkBundle:Template:template
-        template:    static/errorpage.html.twig
+        template: @App/static/about.html.twig
 
