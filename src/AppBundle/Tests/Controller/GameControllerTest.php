@@ -24,7 +24,7 @@ class GameTest extends WebTestCase
     public function testShow()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/games/1');
+        $crawler = $client->request('GET', '/games/14');
         $this->assertContains('Games', $crawler->filter('body')->text());
 
     }

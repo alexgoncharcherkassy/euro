@@ -8,15 +8,14 @@
 
 namespace AppBundle\Tests\Controller;
 
-
-use Symfony\Bundle\FrameworkBundle\Tests\Functional\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PlayerTest extends WebTestCase
 {
     public function testShow()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/players/1');
+        $crawler = $client->request('GET', '/players/14');
         $this->assertContains('Player:', $crawler->filter('body')->text());
 
     }

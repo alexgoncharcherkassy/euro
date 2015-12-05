@@ -9,14 +9,15 @@
 namespace AppBundle\Tests\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Tests\Functional\WebTestCase;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TeamTest extends WebTestCase
 {
     public function testShow()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/1');
+        $crawler = $client->request('GET', '/14');
         $this->assertContains('Country:', $crawler->filter('body')->text());
     }
 
