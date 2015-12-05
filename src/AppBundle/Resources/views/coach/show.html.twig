@@ -7,13 +7,13 @@
         <div class="jumbotron">
 
             <p>
-                Coach:  {{ coaches.firstName[0] }} {{ coaches.lastName[0] }}
+                Coach:  {{ coaches.firstName }} {{ coaches.lastName }}
             </p>
             <p>
-                Birth Day: {{ coaches.birthDay[0]|date('d-m-Y') }}
+                Birth Day: {{ coaches.birthDay|date('d-m-Y') }}
             </p>
             <p>
-                {{ coaches.biography[0] }}
+                {{ coaches.biography }}
             </p>
 
         </div>

@@ -9,14 +9,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class CountryController extends Controller
 {
     /**
-     * @Route("/{team}/description", name="country_show", requirements={"team" : "\d+"})
+     * @Route("/{id}/description", name="country_show", requirements={"id" : "\d+"})
      * @Template("AppBundle:country:show.html.twig")
      */
-    public function showAction($team)
+    public function showAction($id)
     {
+        $country = $this->getDoctrine()->getRepository('AppBundle:Country')
+            ->find($id);
 
+        if (!$country) {
+            throw $this->createNotFoundException(
+                'Not found');
+        }
 
-        return [];
-
+        return ['countries' => $country];
     }
 }

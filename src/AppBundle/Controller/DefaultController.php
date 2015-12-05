@@ -6,8 +6,6 @@ use AppBundle\Entity\Team;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Faker\Factory;
-use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -19,9 +17,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->findAll();
+        $teams = $this->getDoctrine()->getRepository('AppBundle:Team')
+            ->showTeamResult();
 
         if (!$teams) {
             throw $this->createNotFoundException(

@@ -23,16 +23,16 @@ class Game
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="gameTeam1")
-     * @ORM\Column(name="team1", type="integer")
+     *
+     * @ORM\Column(name="team1", type="string", length=100)
      *
      */
     private $team1;
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="gameTeam2")
-     * @ORM\Column(name="team2", type="integer")
+     *
+     * @ORM\Column(name="team2", type="string", length=100)
      */
     private $team2;
 
@@ -57,8 +57,16 @@ class Game
      */
     private $dateGame;
 
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="gameTeam1")
+     */
     private $team1Id;
 
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="gameTeam2")
+     */
     private $team2Id;
 
 
@@ -190,5 +198,29 @@ class Game
     public function getDateGame()
     {
         return $this->dateGame;
+    }
+
+    public function getTeam1Id()
+    {
+        return $this->team1Id;
+    }
+
+    public function getTeam2Id()
+    {
+        return $this->team2Id;
+    }
+
+    public function setTeam1Id(\AppBundle\Entity\Team $team1Id = null)
+    {
+        $this->team1Id = $team1Id;
+
+        return $this;
+    }
+
+    public function setTeam2Id(\AppBundle\Entity\Team $team2Id = null)
+    {
+        $this->team2Id = $team2Id;
+
+        return $this;
     }
 }

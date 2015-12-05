@@ -7,13 +7,13 @@
         <div class="jumbotron">
 
             <p>
-                Player:  {{ players.firstName[0] }} {{ players.lastName[0] }}
+                Player:  {{ players.firstName }} {{ players.lastName }}
             </p>
             <p>
-                Birth Day: {{ players.birthDay[0]|date('d-m-Y') }}
+                Birth Day: {{ players.birthDay|date('d-m-Y') }}
             </p>
             <p>
-                {{ players.biography[0] }}
+                {{ players.biography }}
             </p>
         </div>
     </div> <!-- /container -->

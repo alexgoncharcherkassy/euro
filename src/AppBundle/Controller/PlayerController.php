@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 class PlayerController extends Controller
 {
     /**
-     * @Route("/players/{player}", name = "player_show", requirements={"player" : "\d+"})
+     * @Route("/players/{id}", name = "player_show", requirements={"id" : "\d+"})
      * @Template("AppBundle:player:show.html.twig")
      */
-    public function showAction($player)
+    public function showAction($id)
     {
         $players = $this->getDoctrine()
             ->getRepository('AppBundle:Player')
-            ->findAll();
+            ->find($id);
 
         if (!$players) {
             throw $this->createNotFoundException(
@@ -29,26 +29,4 @@ class PlayerController extends Controller
         return ['players' => $players];
     }
 
-    /**
-     * @Route("/admin/insert/player", name="player_insert")
-     */
-    public function generatePlayerAction()
-    {
-        $faker = Factory::create();
-        $player = new Player();
-
-        $em = $this->getDoctrine()->getManager();
-
-        for ($i = 0; $i < 10; $i++) {
-            $player->setFirstName($faker->firstNameMale);
-            $player->setLastName($faker->lastName);
-            $player->setBirthDay($faker->dateTime);
-            $player->setBiography($faker->text);
-            $em->persist($player);
-        }
-        $em->flush();
-
-        $this->redirectToRoute('homepage');
-        return new Response('add player');
-    }
 }

@@ -18,6 +18,11 @@
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country }}</a></td>
                         <td><strong>{{ team.groups }}</strong></td>
+                        <td><strong>{{ team.results.countGame }}</strong></td>
+                        <td><strong>{{ team.results.winGame }}</strong></td>
+                        <td><strong>{{ team.results.drawGame }}</strong></td>
+                        <td><strong>{{ team.results.defeatGame }}</strong></td>
+                        <td><strong>{{ team.results.points }}</strong></td>
                     </tr>
                 {% endfor %}
             </table>

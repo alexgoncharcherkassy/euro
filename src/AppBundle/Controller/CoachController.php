@@ -13,14 +13,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class CoachController extends Controller
 {
     /**
-     * @Route("/coaches/{coach}", name = "coach_show", requirements={"coach" : "\d+"})
+     * @Route("/coaches/{id}", name = "coach_show", requirements={"id" : "\d+"})
      * @Template("AppBundle:coach:show.html.twig")
      */
-    public function showAction($coach)
+    public function showAction($id)
     {
+        $coach = $this->getDoctrine()->getRepository('AppBundle:Coach')
+            ->find($id);
 
+        if (!$coach) {
+            throw $this->createNotFoundException(
+                'Not found');
+        }
 
-        return [];
+        return ['coaches' => $coach];
     }
 
 }

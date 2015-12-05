@@ -7,25 +7,30 @@
             <h2>
                 View info team
             </h2>
+            {% for country in countries %}
             <p>
-                Country:  <a href="{{ path('euro_show_country', {'team': 0}) }}"> {{ country.country }} </a>
+                Country: <a href="{{ path('country_show', {'id': country.id }) }}"> {{ country.fullTitle }} </a>
             </p>
+            {% endfor %}
+            {% for coach in coaches %}
             <p>
-                Coach: <a href="{{ path('euro_show_coach', {'coach': 0}) }}"> {{ coaches.firstName[0] }} {{ coaches.lastName[0] }} </a>
+                Coach:  <a href="{{ path('coach_show', {'id' : coach.id }) }}"> {{ coach.firstName }} {{ coach.lastName }} </a>
             </p>
+            {% endfor %}
+
             <table class="table table-striped">
                 <th>#</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                {% for i in 0..10 %}
+                {% for player in players %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('euro_show_player', {'player': i}) }}">{{ players.firstName[i] }}</a></td>
-                        <td><a href="{{ path('euro_show_player', {'player': i}) }}">{{ players.lastName[i] }}</a></td>
+                        <td><a href="{{ path('player_show', {'id': player.id }) }}">{{ player.firstName }}</a></td>
+                        <td><a href="{{ path('player_show', {'id': player.id}) }}">{{ player.lastName }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
-            <a class="btn btn-lg btn-primary" href="{{ path('euro_show_match', {'match' : 0}) }}" role="button">Views mathes &raquo;</a>
+            <a class="btn btn-lg btn-primary" href="{{ path('game_show_id', {'id' : games }) }}" role="button">Views mathes &raquo;</a>
         </div>
     </div> <!-- /container -->
 

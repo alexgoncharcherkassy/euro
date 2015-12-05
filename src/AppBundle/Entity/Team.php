@@ -233,6 +233,21 @@ class Team
         return $this->groups;
     }
 
+    public function getResults()
+    {
+        return $this->results;
+    }
+
+    public function getPlayers()
+    {
+        return $this->players;
+    }
+
+    public function getCountries()
+    {
+        return $this->countries;
+    }
+
 
 }
 

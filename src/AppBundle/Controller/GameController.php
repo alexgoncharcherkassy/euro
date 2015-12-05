@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class GameController extends Controller
 {
     /**
-     * @Route("/games/", name="game_show_all")
+     * @Route("/games", name="game_show_all")
      * @Template("AppBundle:game:showAll.html.twig")
      */
     public function showAllAction()
@@ -17,14 +17,12 @@ class GameController extends Controller
 
         $games = $this->getDoctrine()
             ->getRepository('AppBundle:Game')
-            ->findAll();
+            ->showAllGame();
 
         if (!$games) {
             throw $this->createNotFoundException(
                 'Not found');
         }
-   //     $country1 = $games->getTeam1()->getCountry();
-  //      $country2 = $games->getTeam2()->getCountry();
 
         return ['games' => $games];
     }
@@ -35,8 +33,15 @@ class GameController extends Controller
      */
     public function showAction($id)
     {
+        $games = $this->getDoctrine()
+            ->getRepository('AppBundle:Game')
+            ->showGame($id);
 
+        if (!$games) {
+            throw $this->createNotFoundException(
+                'Not found');
+        }
 
-        return [];
+        return ['games' => $games];
     }
 }

@@ -2,26 +2,25 @@
 
 {% block content %}
 
-    <h2>
-        View info matches
-    </h2>
-
     <div class="container">
         <div class="jumbotron">
-            <h2>Matches</h2>
+            <h2>
+                View info games
+            </h2>
+            <h2>Games</h2>
             <table class="table table-striped">
                 <th>#</th>
                 <th>Country</th>
                 <th>Results</th>
                 <th>Country</th>
                 <th>Date</th>
-                {% for i in 0..19 %}
+                {% for game in games %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('euro_show_country', {'team': i}) }}">{{ matches.team1[i] }}</a></td>
-                        <td>{{ matches.goals1[i] }}:{{ matches.goals2[i] }}</td>
-                        <td><a href="{{ path('euro_show_country', {'team': i+3}) }}">{{ matches.team2[i] }}</a></td>
-                        <td>{{ matches.dateMatch[i]|date('d-m-Y') }}</td>
+                        <td><a href="{{ path('country_show', {'id': game.team1Id.id}) }}">{{ game.team1 }}</a></td>
+                        <td>{{ game.goals1 }}:{{ game.goals2 }}</td>
+                        <td><a href="{{ path('country_show', {'id': game.team2Id.id}) }}">{{ game.team2 }}</a></td>
+                        <td>{{ game.dateGame|date('d-m-Y') }}</td>
                     </tr>
                 {% endfor %}
             </table>

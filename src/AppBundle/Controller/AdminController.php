@@ -6,6 +6,7 @@ use AppBundle\Entity\Coach;
 use AppBundle\Entity\Country;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\ResultGame;
 use AppBundle\Entity\Team;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -142,7 +143,7 @@ class AdminController extends Controller
         $faker = Factory::create();
 
         $em = $this->getDoctrine()->getManager();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 11; $i++) {
             $player = new Player();
             $player->setTeam($teams);
             $player->setFirstName($faker->firstNameMale);
@@ -164,9 +165,11 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/game/", name="game_insert_admin")
+     *
      */
     public function generateGameAction()
     {
+
         $teams = $this->getDoctrine()
             ->getRepository('AppBundle:Team')
             ->findAll();
@@ -188,12 +191,16 @@ class AdminController extends Controller
         for ($i = 0; $i < 20; $i++) {
             $game = new Game();
             $game->setDateGame($faker->dateTime);
-            $game->setGoals1(rand(0, 5));
-            $game->setGoals2(rand(0, 5));
+            $goals1 = rand(0, 5);
+            $goals2 = rand(0, 5);
             $team1 = ($arr[rand(0, $count-1)]);
             $team2 = ($arr[rand(0, $count-1)]);
-            $game->setTeam1($team1->getId());
-            $game->setTeam2($team2->getId());
+            $game->setGoals1($goals1);
+            $game->setGoals2($goals2);
+            $game->setTeam1($team1->getCountry());
+            $game->setTeam2($team2->getCountry());
+            $game->setTeam1Id($team1);
+            $game->setTeam2Id($team2);
             $em->persist($game);
         }
         $em->flush();
@@ -205,5 +212,39 @@ class AdminController extends Controller
 
         return $this->forward('AppBundle:Admin:show');
 
+    }
+
+    /**
+     * @Route("/admin/insert/result/{id}", name="result_insert_admin", requirements={"id" : "\d+"})
+     */
+    public function generateResultGameAction($id)
+    {
+        $teams = $this->getDoctrine()
+            ->getRepository('AppBundle:Team')
+            ->find($id);
+
+        if (!$teams) {
+            throw $this->createNotFoundException(
+                'Not found');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $result = new ResultGame();
+        $result->setTeam($teams);
+        $result->setCountGame(rand(0, 20));
+        $result->setWinGame(rand(0, 15));
+        $result->setDrawGame(rand(0, 15));
+        $result->setDefeatGame(rand(0, 15));
+        $result->setPoints(rand(0, 30));
+        $em->persist($result);
+        $em->flush();
+
+        $this->addFlash(
+            'notice',
+            'Add results!'
+        );
+
+        return $this->forward('AppBundle:Admin:show');
     }
 }

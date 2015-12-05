@@ -14,15 +14,25 @@ class TeamController extends Controller
      */
     public function showAction($id)
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
+        $players = $this->getDoctrine()
+            ->getRepository('AppBundle:Player')
             ->findBy(array('team' => $id));
 
-        if (!$teams) {
+        $coaches = $this->getDoctrine()
+            ->getRepository('AppBundle:Coach')
+            ->findBy(array('team' => $id));
+
+        $countries = $this->getDoctrine()
+            ->getRepository('AppBundle:Country')
+            ->findBy(array('team' => $id));
+
+        $games = $id;
+
+        if (!$players) {
             throw $this->createNotFoundException(
                 'Not found');
         }
 
-        return ['teams' => $teams];
+        return ['players' => $players, 'coaches' => $coaches, 'countries' => $countries, 'games' => $games];
     }
 }
