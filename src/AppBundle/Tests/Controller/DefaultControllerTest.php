@@ -17,8 +17,8 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
-    //   $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('EURO 2016', $crawler->filter('a')->text());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('EURO 2016', $crawler->filter('body')->text());
     }
 
 }
