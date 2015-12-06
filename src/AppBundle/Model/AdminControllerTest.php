@@ -9,7 +9,6 @@
 namespace AppBundle\Tests\Controller;
 
 
-use AppBundle\Model\Faker;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerTest extends WebTestCase
