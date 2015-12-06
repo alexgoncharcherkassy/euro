@@ -9,7 +9,7 @@
             </h2>
             {% for country in countries %}
             <p>
-                Country: <a href="{{ path('country_show', {'id': country.id }) }}"> {{ country.fullTitle }} </a>
+                Country: <a href="{{ path('country_show', {'id': country.team.id }) }}"> {{ country.fullTitle }} </a>
             </p>
             {% endfor %}
             {% for coach in coaches %}

@@ -15,7 +15,7 @@ class CountryController extends Controller
     public function showAction($id)
     {
         $country = $this->getDoctrine()->getRepository('AppBundle:Country')
-            ->find($id);
+            ->findBy(array('team' => $id));
 
         if (!$country) {
             throw $this->createNotFoundException(
