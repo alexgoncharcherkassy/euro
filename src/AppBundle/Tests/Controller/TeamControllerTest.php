@@ -18,8 +18,7 @@ class TeamTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/14');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-       // $this->assertContains('Country:', $crawler->filter('body')->text());
+        $this->assertContains('Country:', $crawler->filter('body')->text());
     }
 
 }
