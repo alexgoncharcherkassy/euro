@@ -6,6 +6,7 @@ before_script:
     - composer self-update
     - composer install
     - ./app/console doctrine:database:create
+    - ./app/console doctrine:schema:update --force
 
 script:
     - phpunit -c app/ --coverage-clover=coverage.clover
