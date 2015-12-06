@@ -24,4 +24,14 @@ class TeamRepository extends EntityRepository
             )
             ->getResult();
     }
+
+    public function showTeamASC()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Team t
+              ORDER BY t.country ASC '
+            )
+            ->getResult();
+    }
 }

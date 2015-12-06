@@ -24,7 +24,7 @@ class AdminController extends Controller
     {
         $teams = $this->getDoctrine()
             ->getRepository('AppBundle:Team')
-            ->findAll();
+            ->showTeamASC();
 
         if (!$teams) {
             throw $this->createNotFoundException(
