@@ -5,7 +5,7 @@ php:
 before_script:
     - composer self-update
     - composer install
-    - mysql -e "create database IF NOT EXISTS test;" -uroot
+    - ./app/console doctrine:database:create
 
 script:
     - phpunit -c app/ --coverage-clover=coverage.clover
