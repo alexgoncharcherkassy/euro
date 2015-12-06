@@ -9,7 +9,6 @@ before_script:
 script:
     - app/console doctrine:database:create
     - app/console doctrine:schema:update --force
-    - app/console doctrine:fixtures:load --no-interaction
     - phpunit -c app/ --coverage-clover=coverage.clover
     - wget https://scrutinizer-ci.com/ocular.phar
     - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
