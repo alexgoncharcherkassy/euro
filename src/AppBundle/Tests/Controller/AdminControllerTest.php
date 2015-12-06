@@ -17,7 +17,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin');
-        $this->assertContains('Not found', $crawler->filter('body')->text());
+        $this->assertContains('Admin', $crawler->filter('body')->text());
 
     }
 

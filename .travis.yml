@@ -7,9 +7,5 @@ before_script:
     - composer install
 
 script:
-    - app/console doctrine:database:create
-    - app/console doctrine:schema:update --force
-    - phpunit -c app/ --coverage-clover=coverage.clover
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    - phpunit -c app/
 
