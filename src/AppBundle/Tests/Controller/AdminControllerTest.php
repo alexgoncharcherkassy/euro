@@ -17,8 +17,8 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin');
-       // $this->assertContains('Admin panel', $crawler->filter('body')->text());
-        $this->assertTrue($crawler->filter('html:contains("Admin panel")')->count() > 0);
+        $this->assertContains('Not found', $crawler->filter('body')->text());
+
     }
 
 }
