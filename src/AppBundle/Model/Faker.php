@@ -33,8 +33,8 @@ class Faker extends Controller
             $em->persist($team);
         }
         $em->flush();
+        return;
 
-        $this->redirectToRoute('homepage');
     }
 
     public function generateCountry()

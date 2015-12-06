@@ -9,6 +9,7 @@
 namespace AppBundle\Tests\Controller;
 
 
+use AppBundle\Model\Faker;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerTest extends WebTestCase
@@ -17,7 +18,8 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin');
-        $this->assertContains('Admin panel', $crawler->filter('body')->text());
+       // $this->assertContains('Admin panel', $crawler->filter('body')->text());
+        $this->assertTrue($crawler->filter('html:contains("Admin panel")')->count() > 0);
     }
 
 }
