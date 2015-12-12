@@ -4,9 +4,11 @@
 
     <div class="container">
         <div class="jumbotron">
+
             <h2>
                 View info games
             </h2>
+
             <h2>Games</h2>
             <table class="table table-striped">
                 <th>#</th>
@@ -24,6 +26,11 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% if games.getTotalItemCount > 10 %}
+                <div class="text-center">
+                    {{ knp_pagination_render(games) }}
+                </div>
+            {% endif %}
         </div>
     </div> <!-- /container -->
 

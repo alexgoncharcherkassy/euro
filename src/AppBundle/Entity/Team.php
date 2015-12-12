@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-//use Symfony\Component\Validator\Constraints\Country;
 
 /**
  * Team
@@ -26,7 +25,7 @@ class Team
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=100, unique=true)
+     * @ORM\Column(name="country", type="string", length=100)
      */
     private $country;
 
@@ -43,12 +42,12 @@ class Team
     private $countries;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Coach", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Coach", mappedBy="team", cascade={"persist"})
      */
     private $coaches;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Player", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Player", mappedBy="team", cascade={"persist"})
      */
     private $players;
 
@@ -58,12 +57,12 @@ class Team
     private $results;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game", mappedBy="team1")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game", mappedBy="team1", cascade={"persist"})
      */
     private $gameTeam1;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game", mappedBy="team2")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game", mappedBy="team2", cascade={"persist"})
      */
     private $gameTeam2;
 
@@ -83,7 +82,10 @@ class Team
      */
     public function addPlayer(Player $player)
     {
+        $player->setTeam($this);
         $this->players[] = $player;
+
+        return $this;
     }
 
     /**
@@ -100,7 +102,10 @@ class Team
      */
     public function addCoach(Coach $coach)
     {
+        $coach->setTeam($this);
         $this->coaches[] = $coach;
+
+        return $this;
     }
 
     /**
@@ -110,45 +115,21 @@ class Team
     {
         $this->coaches->removeElement($coach);
     }
+/*
+
 
     /**
-     * @param Country $country
+     * @param Game $game
      */
-    public function addCountry(Country $country)
-    {
-        $this->countries[] = $country;
-    }
-
-    /**
-     * @param Country $country
-     */
-    public function removeCountry(Country $country)
-    {
-        $this->countries->removeElement($country);
-    }
-
-    /**
-     * @param ResultGame $resultGame
-     */
-    public function addResult(ResultGame $resultGame)
-    {
-        $this->results[] = $resultGame;
-    }
-
-    /**
-     * @param ResultGame $resultGame
-     */
-    public function removeResult(ResultGame $resultGame)
-    {
-        $this->results->removeElement($resultGame);
-    }
-
     /**
      * @param Game $game
      */
     public function addGameTeam1(Game $game)
     {
+        $game->setTeam1Id($this);
         $this->gameTeam1[] = $game;
+
+        return $this;
     }
 
     /**
@@ -164,7 +145,10 @@ class Team
      */
     public function addGameTeam2(Game $game)
     {
+        $game->setTeam2Id($this);
         $this->gameTeam2[] = $game;
+
+        return $this;
     }
 
     /**
@@ -233,19 +217,52 @@ class Team
         return $this->groups;
     }
 
+    /**
+     * @return mixed
+     */
     public function getResults()
     {
         return $this->results;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getPlayers()
     {
         return $this->players;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCountries()
     {
         return $this->countries;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCoaches()
+    {
+        return $this->coaches;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGameTeam1()
+    {
+        return $this->gameTeam1;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGameTeam2()
+    {
+        return $this->gameTeam2;
     }
 
 

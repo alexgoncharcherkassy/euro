@@ -9,14 +9,16 @@
 namespace AppBundle\Tests\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\Tests\TestBaseWeb;
+//use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AdminControllerTest extends WebTestCase
+class AdminControllerTest extends TestBaseWeb
 {
     public function testShow()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Admin', $crawler->filter('body')->text());
 
     }

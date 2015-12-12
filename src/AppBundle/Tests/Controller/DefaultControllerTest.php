@@ -9,14 +9,16 @@
 namespace AppBundle\Tests\Controller;
 
 
+use AppBundle\Tests\TestBaseWeb;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends TestBaseWeb
 {
     public function testIndex()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Standings', $crawler->filter('body')->text());
     }
 

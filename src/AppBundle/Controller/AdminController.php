@@ -13,6 +13,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Faker\Factory;
 
+/**
+ * Class AdminController
+ * @package AppBundle\Controller
+ */
 class AdminController extends Controller
 {
     /**
@@ -24,7 +28,7 @@ class AdminController extends Controller
     {
         $teams = $this->getDoctrine()
             ->getRepository('AppBundle:Team')
-            ->showTeamASC();
+            ->findAll();
 
         if (!$teams) {
             throw $this->createNotFoundException(

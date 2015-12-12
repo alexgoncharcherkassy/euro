@@ -12,6 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class GameRepository extends EntityRepository
 {
+    /**
+     * @param $id
+     * @return array
+     */
     public function showGame($id)
     {
         return $this->getEntityManager()
@@ -24,6 +28,9 @@ class GameRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @return array
+     */
     public function showAllGame()
     {
         return $this->getEntityManager()
@@ -31,5 +38,21 @@ class GameRepository extends EntityRepository
                 'SELECT g FROM AppBundle:Game g
               ORDER BY g.dateGame DESC'
             )->getResult();
+    }
+
+    /**
+     * @param $start
+     * @param $limit
+     * @return array
+     */
+    public function showAllGameAjax($start, $limit)
+    {
+        return $this->createQueryBuilder('g')
+            ->select('g')
+            ->orderBy('g.dateGame', 'DESC')
+            ->getQuery()
+            ->setFirstResult($start)
+            ->setMaxResults($limit)
+            ->getResult();
     }
 }

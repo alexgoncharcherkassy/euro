@@ -13,25 +13,54 @@ use Doctrine\ORM\EntityRepository;
  */
 class TeamRepository extends EntityRepository
 {
+    /**
+     * @return array
+     */
     public function showTeamResult()
     {
         return $this->getEntityManager()
             ->createQuery(
-              'SELECT t FROM AppBundle:Team t
-              JOIN AppBundle:ResultGame r
-              WHERE t.id = r.team
-              ORDER BY r.points DESC'
-            )
-            ->getResult();
+              "SELECT t, r FROM AppBundle:Team t
+               JOIN t.results r"
+            );
+       //     ->getResult();
+        /*return $this->createQueryBuilder('t')
+            ->select('t, r')
+            ->join('t.results', 'r')
+            ->orderBy('r.points', 'DESC')
+            ->getQuery()
+            ->getResult();*/
     }
 
+    /**
+     * @return array
+     */
     public function showTeamASC()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Team t
-              ORDER BY t.country ASC '
+                "SELECT t FROM AppBundle:Team t
+                 ORDER BY t.country ASC"
             )
             ->getResult();
     }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public function showTeamId($id)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t, p, c, cn')
+            ->join('t.players', 'p')
+            ->join('t.coaches', 'c')
+            ->join('t.countries', 'cn')
+            ->where('t.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

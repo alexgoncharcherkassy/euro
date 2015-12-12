@@ -8,6 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
+/**
+ * Class DefaultController
+ * @package AppBundle\Controller
+ */
 class DefaultController extends Controller
 {
     /**
@@ -17,8 +21,17 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $teams = $this->getDoctrine()->getRepository('AppBundle:Team')
+        $sql = $this->getDoctrine()->getRepository('AppBundle:Team')
             ->showTeamResult();
+
+        $paginator = $this->get('knp_paginator');
+
+        $teams = $paginator->paginate(
+            $sql,
+            $this->get('request')->query->get('page', 1),
+            $this->container->getParameter('knp_paginator.page_range')
+        );
+
 
         if (!$teams) {
             throw $this->createNotFoundException(

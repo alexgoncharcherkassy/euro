@@ -13,6 +13,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class PlayerRepository extends EntityRepository
 {
+    /**
+     * @param $id
+     * @return array
+     */
     public function showPlayerResult($id)
     {
         return $this->getEntityManager()

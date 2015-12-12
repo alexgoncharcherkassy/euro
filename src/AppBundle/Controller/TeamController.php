@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class TeamController
+ * @package AppBundle\Controller
+ */
 class TeamController extends Controller
 {
     /**
@@ -14,17 +18,8 @@ class TeamController extends Controller
      */
     public function showAction($id)
     {
-        $players = $this->getDoctrine()
-            ->getRepository('AppBundle:Player')
-            ->findBy(array('team' => $id));
-
-        $coaches = $this->getDoctrine()
-            ->getRepository('AppBundle:Coach')
-            ->findBy(array('team' => $id));
-
-        $countries = $this->getDoctrine()
-            ->getRepository('AppBundle:Country')
-            ->findBy(array('team' => $id));
+        $players = $this->getDoctrine()->getRepository('AppBundle:Team')
+            ->showTeamId($id);
 
         $games = $id;
 
@@ -33,6 +28,6 @@ class TeamController extends Controller
                 'Not found');
         }
 
-        return ['players' => $players, 'coaches' => $coaches, 'countries' => $countries, 'games' => $games];
+        return ['players' => $players, 'games' => $games];
     }
 }

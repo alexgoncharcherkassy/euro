@@ -9,14 +9,16 @@
 namespace AppBundle\Tests\Controller;
 
 
+use AppBundle\Tests\TestBaseWeb;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class GameTest extends WebTestCase
+class GameTest extends TestBaseWeb
 {
     public function testShowAll()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/games');
+        $crawler = $client->request('GET', '/games/all');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Games', $crawler->filter('body')->text());
 
     }
@@ -24,7 +26,8 @@ class GameTest extends WebTestCase
     public function testShow()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/games/14');
+        $crawler = $client->request('GET', '/games/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Games', $crawler->filter('body')->text());
 
     }

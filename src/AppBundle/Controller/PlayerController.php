@@ -9,6 +9,10 @@ use Faker\Factory;
 use AppBundle\Entity\Player;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class PlayerController
+ * @package AppBundle\Controller
+ */
 class PlayerController extends Controller
 {
     /**

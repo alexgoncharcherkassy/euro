@@ -2,13 +2,12 @@
 
 {% block content %}
 
-
-
     <div class="container">
         <div class="jumbotron">
             <h2>
                 View all games
             </h2>
+
             <h2>Games</h2>
             <table class="table table-striped">
                 <th>#</th>
@@ -26,8 +25,38 @@
                     </tr>
                 {% endfor %}
             </table>
+
+            <div class="text-center">
+                {{ knp_pagination_render(games) }}
+            </div>
+
         </div>
     </div> <!-- /container -->
 
 {% endblock %}
+{#
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        is_processing = false;
+        last_page = false;
+        $(window).scroll(function() {
+            if ($(document).height() - $(window).height() <= $(window).scrollTop()) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ path('game_show_ajax') }}",
+                    success: function(data){
+                      /*  $.each(data.games, function(i, val ) {
+
+                                alert('val: ' + val);
+                            })
+*/
+
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}
+#}
 

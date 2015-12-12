@@ -9,18 +9,18 @@
                     Standings
                 </h2>
                 <th>#</th>
-                <th>Team</th>
-                <th>Group</th>
-                <th>Count</th>
-                <th>Win</th>
-                <th>Draw</th>
-                <th>Defeat</th>
-                <th>Points</th>
+                <th>{{ knp_pagination_sortable(teams, 'Team', 't.country') }}</th>
+                <th>{{ knp_pagination_sortable(teams, 'Group', 't.groups') }}</th>
+                <th>{{ knp_pagination_sortable(teams, 'Count', 'r.countGame') }}</th>
+                <th>{{ knp_pagination_sortable(teams, 'Win', 'r.winGame') }}</th>
+                <th>{{ knp_pagination_sortable(teams, 'Draw', 'r.drawGame') }}</th>
+                <th>{{ knp_pagination_sortable(teams, 'Defeat', 'r.defeatGame') }}</th>
+                <th>{{ knp_pagination_sortable(teams, 'Points', 'r.points') }}</th>
                 {% for team in teams %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country }}</a></td>
-                        <td><strong>{{ team.groups }}</strong></td>
+                        <td><strong>{{ team.groups|upper }}</strong></td>
                         <td>{{ team.results.countGame }}</td>
                         <td>{{ team.results.winGame }}</td>
                         <td>{{ team.results.drawGame }}</td>
@@ -29,6 +29,11 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% if teams.getTotalItemCount > 10 %}
+                <div class="text-center">
+                    {{ knp_pagination_render(teams) }}
+                </div>
+            {% endif %}
         </div>
     </div> <!-- /container -->
 
