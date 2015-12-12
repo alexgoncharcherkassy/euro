@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+
+            <h2>
+                View info games
+            </h2>
+
+            <h2>Games</h2>
+            <table class="table table-striped">
+                <th>#</th>
+                <th>Country</th>
+                <th>Results</th>
+                <th>Country</th>
+                <th>Date</th>
+                {% for game in games %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('team_show', {'id': game.team1Id.id}) }}">{{ game.team1 }}</a></td>
+                        <td>{{ game.goals1 }}:{{ game.goals2 }}</td>
+                        <td><a href="{{ path('team_show', {'id': game.team2Id.id}) }}">{{ game.team2 }}</a></td>
+                        <td>{{ game.dateGame|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if games.getTotalItemCount > 10 %}
+                <div class="text-center">
+                    {{ knp_pagination_render(games) }}
+                </div>
+            {% endif %}
+        </div>
+    </div> <!-- /container -->
+
+{% endblock %}
+

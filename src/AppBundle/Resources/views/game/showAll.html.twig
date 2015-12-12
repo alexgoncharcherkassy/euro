@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2>
+                View all games
+            </h2>
+
+            <h2>Games</h2>
+            <table class="table table-striped">
+                <th>#</th>
+                <th>Country</th>
+                <th>Results</th>
+                <th>Country</th>
+                <th>Date</th>
+                {% for game in games %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('team_show', {'id': game.team1Id.id}) }}">{{ game.team1 }}</a></td>
+                        <td>{{ game.goals1 }}:{{ game.goals2 }}</td>
+                        <td><a href="{{ path('team_show', {'id': game.team2Id.id}) }}">{{ game.team2 }}</a></td>
+                        <td>{{ game.dateGame|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="text-center">
+                {{ knp_pagination_render(games) }}
+            </div>
+
+        </div>
+    </div> <!-- /container -->
+
+{% endblock %}
+{#
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        is_processing = false;
+        last_page = false;
+        $(window).scroll(function() {
+            if ($(document).height() - $(window).height() <= $(window).scrollTop()) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ path('game_show_ajax') }}",
+                    success: function(data){
+                      /*  $.each(data.games, function(i, val ) {
+
+                                alert('val: ' + val);
+                            })
+*/
+
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}
+#}
+

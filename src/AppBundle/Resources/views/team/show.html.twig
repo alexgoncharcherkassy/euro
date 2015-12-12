@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2>
+                View info team
+            </h2>
+
+            {% for player in players %}
+                <p>
+                    Country: <a href="{{ path('country_show', {'id': player.countries.id }) }}"> {{ player.countries.fullTitle }} </a>
+                </p>
+                {% for coach in player.coaches %}
+                    <p>
+                        Coach: <a href="{{ path('coach_show', {'id' : coach.id }) }}"> {{ coach.firstName }} {{ coach.lastName }} </a>
+                    </p>
+                {% endfor %}
+
+                <table class="table table-striped">
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    {% for man in player.players %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ path('player_show', {'id': man.id }) }}">{{ man.firstName }}</a></td>
+                            <td><a href="{{ path('player_show', {'id': man.id}) }}">{{ man.lastName }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <a class="btn btn-lg btn-primary" href="{{ path('game_show_id', {'id' : games }) }}" role="button">Views
+                    mathes &raquo;</a>
+            {% endfor %}
+        </div>
+    </div> <!-- /container -->
+
+{% endblock %}
+
