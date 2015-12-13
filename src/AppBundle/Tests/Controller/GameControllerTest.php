@@ -17,7 +17,7 @@ class GameTest extends TestBaseWeb
     public function testShowPaginate()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/games/all');
+        $crawler = $client->request('GET', '/games/page');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Games', $crawler->filter('body')->text());
 
