@@ -20,6 +20,7 @@ class GameController extends Controller
      */
     public function showAllAction($page = 1)
     {
+        $counts = array();
         $limit = 10;
         $start = $page * $limit - $limit;
 

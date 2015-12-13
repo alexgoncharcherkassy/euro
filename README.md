@@ -11,6 +11,6 @@ Scrutinizer-ci
 A Symfony project created on November 18, 2015, 6:12 pm.
 
 
-На главной странице реализована пагинация с помощью knp-paginator-bundle
+На главной странице реализована пагинация с помощью knp-paginator-bundle.
 На странице показывающей все игры (Show all games) была реализована моя собственная пагинация в контроллере GameController.php
 и шаблоне game/showAll.html.twig
