@@ -61,7 +61,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/games/ajax/", name="game_show_ajax", options={"expose" = true})
+     * @Route("/games/ajax/", name="game_show_ajax")
      */
     public function showAjaxAction()
     {

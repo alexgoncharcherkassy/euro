@@ -38,8 +38,6 @@
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
-        is_processing = false;
-        last_page = false;
         $(window).scroll(function() {
             if ($(document).height() - $(window).height() <= $(window).scrollTop()) {
                 $.ajax({
