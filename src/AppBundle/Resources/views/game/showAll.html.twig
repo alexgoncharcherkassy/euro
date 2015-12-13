@@ -11,10 +11,10 @@
             <h2>Games</h2>
             <table class="table table-striped">
                 <th>#</th>
-                <th>Country</th>
+                <th>{{ knp_pagination_sortable(games, 'Country', 'g.team1') }}</th>
                 <th>Results</th>
-                <th>Country</th>
-                <th>Date</th>
+                <th>{{ knp_pagination_sortable(games, 'Country', 'g.team2') }}</th>
+                <th>{{ knp_pagination_sortable(games, 'Date', 'g.dateGame') }}</th>
                 {% for game in games %}
                     <tr>
                         <td>{{ loop.index }}</td>
@@ -25,11 +25,11 @@
                     </tr>
                 {% endfor %}
             </table>
-
-            <div class="text-center">
-                {{ knp_pagination_render(games) }}
-            </div>
-
+            {% if games.getTotalItemCount > 10 %}
+                <div class="text-center">
+                    {{ knp_pagination_render(games) }}
+                </div>
+            {% endif %}
         </div>
     </div> <!-- /container -->
 

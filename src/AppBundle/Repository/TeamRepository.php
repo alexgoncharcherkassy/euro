@@ -21,7 +21,8 @@ class TeamRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery(
               "SELECT t, r FROM AppBundle:Team t
-               JOIN t.results r"
+               JOIN t.results r
+               ORDER BY r.points DESC"
             );
        //     ->getResult();
         /*return $this->createQueryBuilder('t')

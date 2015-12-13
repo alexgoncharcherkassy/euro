@@ -36,8 +36,8 @@ class GameRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT g FROM AppBundle:Game g
-              ORDER BY g.dateGame DESC'
-            )->getResult();
+              ORDER BY g.dateGame DESC');
+      //      )->getResult();
     }
 
     /**
