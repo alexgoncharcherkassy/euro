@@ -25,9 +25,14 @@
                     </tr>
                 {% endfor %}
             </table>
-
             <div class="text-center">
-                {{ knp_pagination_render(games) }}
+                <ul class="pagination">
+                    <li><a href="{{ path('game_show_all', {'page' : 1}) }}">First</a></li>
+                    {% for page in countPage %}
+                        <li><a href="{{ path('game_show_all', {'page' : page}) }}">{{ page }}</a></li>
+                    {% endfor %}
+                    <li><a href="{{ path('game_show_all', {'page' : lastPage}) }}">Last</a></li>
+                </ul>
             </div>
 
         </div>

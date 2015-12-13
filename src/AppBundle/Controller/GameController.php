@@ -15,20 +15,34 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends Controller
 {
     /**
-     * @Route("/games", name="game_show_all")
+     * @Route("/games/page/{page}", name="game_show_all")
      * @Template("AppBundle:game:showAll.html.twig")
      */
-    public function showAllAction()
+    public function showAllAction($page = 1)
     {
-        $em = $this->getDoctrine()->getRepository('AppBundle:Game');
-        $games = $em->showAllGameAjax(1, 10);
+        $limit = 7;
+        $start = $page * $limit - $limit;
 
+        $em = $this->getDoctrine()->getRepository('AppBundle:Game');
+        $games = $em->showAllGameAjax($start, $limit);
+
+        $countRecords = count($em->findAll());
+        $countPage = ceil($countRecords / $limit);
+        if ($countPage > 5) {
+            for ($i = 0; $i < 5; $i++) {
+                if ($page > 1 && $page + $i <= $countPage + 1) {
+                    $counts[$i] = ($page + $i) - 1;
+                } elseif ($page <= 1) {
+                    $counts[$i] = $i + 1;
+                }
+            }
+        }
         if (!$games) {
             throw $this->createNotFoundException(
                 'Not found');
         }
 
-        return ['games' => $games];
+        return ['games' => $games, 'countPage' => $counts, 'lastPage' => $countPage];
 
 
     }
