@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GameTest extends TestBaseWeb
 {
-    public function testShowAll()
+    public function testShowPaginate()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/games/all');
