@@ -20,7 +20,7 @@ class GameController extends Controller
      */
     public function showAllAction($page = 1)
     {
-        $limit = 7;
+        $limit = 10;
         $start = $page * $limit - $limit;
 
         $em = $this->getDoctrine()->getRepository('AppBundle:Game');
@@ -28,11 +28,12 @@ class GameController extends Controller
 
         $countRecords = count($em->findAll());
         $countPage = ceil($countRecords / $limit);
-        if ($countPage > 5) {
-            for ($i = 0; $i < 5; $i++) {
+        $minPage = ceil($countPage / $limit);
+        if ($countPage > $minPage) {
+            for ($i = 0; $i < 5 || $i < $minPage; $i++) {
                 if ($page > 1 && $page + $i <= $countPage + 1) {
                     $counts[$i] = ($page + $i) - 1;
-                } elseif ($page <= 1) {
+                } elseif ($page <= 1 && $i <= $minPage + 1) {
                     $counts[$i] = $i + 1;
                 }
             }
