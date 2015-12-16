@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="jumbotron">
+            {% for flash_message in app.session.flashbag.get('notice') %}
+                <div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>{{ flash_message }}</strong>
+                </div>
+            {% endfor %}
+            <h2>
+                Insert Team
+            </h2>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="error-handling">
+                        {{ form_label(form.country) }}
+                        {{ form_widget(form.country) }}
+                        {{ form_errors(form.country) }}
+                    </div>
+                    <div class="error-handling">
+                        {{ form_label(form.groups) }}
+                        {{ form_widget(form.groups) }}
+                        {{ form_errors(form.groups) }}
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Виконати</button>
+                    </div>
+                    <div class="hidden">
+                        {{ form_rest(form) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div> <!-- /container -->
+
+
+{% endblock %}
+
+

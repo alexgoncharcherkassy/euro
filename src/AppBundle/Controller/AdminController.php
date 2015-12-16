@@ -8,10 +8,12 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\ResultGame;
 use AppBundle\Entity\Team;
+use AppBundle\Form\TeamType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Faker\Factory;
+use Symfony\Component\BrowserKit\Request;
 
 /**
  * Class AdminController
@@ -36,6 +38,34 @@ class AdminController extends Controller
         }
 
         return ['teams' => $teams];
+    }
+
+    /**
+     * @Route("/admin/insert/team", name="team_inserts_admin")
+     * @Template("AppBundle:admin:insertTeam.html.twig")
+     *
+     */
+    public function insertTeamAction(Request $request)
+    {
+        $team = new Team();
+        $form = $this->createForm(new TeamType(), $team);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($team);
+                $em->flush();
+
+                $this->addFlash('notice', 'Country '. $team->getCountry(). ' added');
+
+                return $this->redirectToRoute('team_inserts_admin');
+            }
+
+            return [
+              'form' => $form->createView()
+            ];
+        }
     }
 
     /**
