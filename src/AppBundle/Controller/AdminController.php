@@ -8,12 +8,16 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\ResultGame;
 use AppBundle\Entity\Team;
+use AppBundle\Form\CoachType;
+use AppBundle\Form\CountryType;
+use AppBundle\Form\PlayerType;
 use AppBundle\Form\TeamType;
+use AppBundle\Model\SetResults;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Faker\Factory;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AdminController
@@ -41,159 +45,119 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/insert/team", name="team_inserts_admin")
+     * @Route("/admin/insert/team", name="team_insert_admin")
      * @Template("AppBundle:admin:insertTeam.html.twig")
      *
      */
     public function insertTeamAction(Request $request)
     {
         $team = new Team();
+        $results = new SetResults();
         $form = $this->createForm(new TeamType(), $team);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                $res = $results->setStartResult($team);
+                $em->persist($res);
                 $em->persist($team);
                 $em->flush();
 
                 $this->addFlash('notice', 'Country '. $team->getCountry(). ' added');
 
-                return $this->redirectToRoute('team_inserts_admin');
+                return $this->redirectToRoute('team_insert_admin');
             }
-
-            return [
-              'form' => $form->createView()
-            ];
         }
+        return ['form' => $form->createView()];
     }
 
-    /**
-     * @Route("/admin/insert/", name="team_insert_admin")
-     */
-    public function generateTeamAction()
-    {
-        $faker = Factory::create();
-
-        $arr = 'ABCDEIFG';
-
-        $em = $this->getDoctrine()->getManager();
-
-        for ($i = 0; $i < 10; $i++) {
-            $team = new Team();
-            $team->setGroups(substr($arr, rand(0, strlen($arr) - 1), 1));
-            $team->setCountry($faker->country);
-            $em->persist($team);
-        }
-        $em->flush();
-
-        return $this->forward('AppBundle:Admin:show');
-
-    }
-
-    /**
+     /**
      * @Route("/admin/insert/country/{id}", name="country_insert_admin", requirements={"id" : "\d+"})
-     *
+     * @Template("@App/admin/insertCountry.html.twig")
      */
-    public function generateCountryAction($id)
+    public function insertCountryAction(Request $request, $id)
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->find($id);
-
-        if (!$teams) {
-            throw $this->createNotFoundException(
-                'Not found');
-        }
-        $faker = Factory::create();
-
-        $em = $this->getDoctrine()->getManager();
-
         $country = new Country();
-        $country->setTeam($teams);
-        $country->setFullTitle($faker->country);
-        $country->setDescription($faker->text);
-        $em->persist($country);
-        $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $team = $em->getRepository('AppBundle:Team')->find($id);
 
-        $this->addFlash(
-            'notice',
-            'Add country!'
-        );
+        $form = $this->createForm(new CountryType(), $country);
 
-        return $this->forward('AppBundle:Admin:show');
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
 
+                $country->setTeam($team);
+                $em->persist($country);
+                $em->flush();
+
+                $this->addFlash('notice', 'Description country '. $country->getFullTitle(). ' added');
+
+                return $this->redirectToRoute('team_insert_admin');
+            }
+        }
+        return ['form' => $form->createView()];
     }
 
     /**
      * @Route("/admin/insert/coach/{id}", name="coach_insert_admin", requirements={"id" : "\d+"})
-     *
+     * @Template("@App/admin/insertCoach.html.twig")
      */
-    public function generateCoachAction($id)
+    public function insertCoachAction(Request $request, $id)
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->find($id);
-
-        if (!$teams) {
-            throw $this->createNotFoundException(
-                'Not found');
-        }
-        $faker = Factory::create();
-
-        $em = $this->getDoctrine()->getManager();
-
         $coach = new Coach();
-        $coach->setTeam($teams);
-        $coach->setFirstName($faker->firstNameMale);
-        $coach->setLastName($faker->lastName);
-        $coach->setBirthDay($faker->dateTime);
-        $coach->setBiography($faker->text);
-        $em->persist($coach);
-        $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $team = $em->getRepository('AppBundle:Team')->find($id);
 
-        $this->addFlash(
-            'notice',
-            'Add coach!'
-        );
+        $form = $this->createForm(new CoachType(), $coach);
 
-        return $this->forward('AppBundle:Admin:show');
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $coach->setTeam($team);
+                $em->persist($coach);
+                $em->flush();
+
+                $this->addFlash('notice', 'Coach '. $coach->getFirstName().' '.$coach->getLastName().
+                    ' added to team '. $team->getCountry());
+
+                return $this->redirectToRoute('team_insert_admin');
+            }
+        }
+        return ['form' => $form->createView()];
 
     }
 
     /**
      * @Route("/admin/insert/player/{id}", name="player_insert_admin", requirements={"id" : "\d+"})
+     * @Template("@App/admin/insertPlayer.html.twig")
      */
-    public function generatePlayerAction($id)
+    public function insertPlayerAction(Request $request, $id)
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->find($id);
-
-        if (!$teams) {
-            throw $this->createNotFoundException(
-                'Not found');
-        }
-        $faker = Factory::create();
-
+        $player = new Player();
         $em = $this->getDoctrine()->getManager();
-        for ($i = 0; $i < 11; $i++) {
-            $player = new Player();
-            $player->setTeam($teams);
-            $player->setFirstName($faker->firstNameMale);
-            $player->setLastName($faker->lastName);
-            $player->setBirthDay($faker->dateTime);
-            $player->setBiography($faker->text);
-            $em->persist($player);
+        $team = $em->getRepository('AppBundle:Team')->find($id);
+
+        $form = $this->createForm(new PlayerType(), $player);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $player->setTeam($team);
+                $em->persist($player);
+                $em->flush();
+
+                $this->addFlash('notice', 'Player '. $player->getFirstName().' '.$player->getLastName().
+                    ' added to team '. $team->getCountry());
+
+                return $this->redirectToRoute('team_insert_admin');
+            }
         }
-        $em->flush();
+        return ['form' => $form->createView()];
 
-        $this->addFlash(
-            'notice',
-            'Add players!'
-        );
-
-        return $this->forward('AppBundle:Admin:show');
 
     }
 

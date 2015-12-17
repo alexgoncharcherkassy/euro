@@ -20,15 +20,13 @@
                 <th>Add country</th>
                 <th>Add players</th>
                 <th>Add coach</th>
-                <th>Add results</th>
                 {% for team in teams %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country }}</a></td>
-                        <td><a href="{{ path('country_insert_admin', {'id' : team.id}) }}">Add country</a></td>
-                        <td><a href="{{ path('player_insert_admin', {'id' : team.id}) }}">Add players</a></td>
-                        <td><a href="{{ path('coach_insert_admin', {'id' : team.id}) }}">Add coach</a></td>
-                        <td><a href="{{ path('result_insert_admin', {'id' : team.id}) }}">Add results</a></td>
+                        <td><a class="btn btn-large btn-primary" href="{{ path('country_insert_admin', {'id' : team.id}) }}">Add country</a></td>
+                        <td><a class="btn btn-large btn-primary" href="{{ path('player_insert_admin', {'id' : team.id}) }}">Add players</a></td>
+                        <td><a class="btn btn-large btn-primary" href="{{ path('coach_insert_admin', {'id' : team.id}) }}">Add coach</a></td>
                     </tr>
                 {% endfor %}
             </table>

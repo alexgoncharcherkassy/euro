@@ -13,11 +13,12 @@ class TeamType extends AbstractType
         $builder
             ->add("country", 'text', [
                 'label' => 'Enter team',
+                'attr' => ['class' => 'form-control']
             ])
             ->add("groups", 'text', [
                 'label' => 'Enter group',
-            ])
-            ->add('Save', 'submit');
+                'attr' => ['class' => 'form-control']
+            ]);
 
     }
 

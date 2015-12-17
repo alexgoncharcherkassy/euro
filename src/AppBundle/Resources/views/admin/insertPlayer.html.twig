@@ -12,7 +12,7 @@
                 </div>
             {% endfor %}
             <h2>
-                Insert Team
+                Insert Player
             </h2>
 
             <div class="row">
@@ -20,14 +20,24 @@
 
                     {{ form_start(form) }}
                     <div class="error-handling">
-                        {{ form_label(form.country) }}
-                        {{ form_widget(form.country) }}
-                        {{ form_errors(form.country) }}
+                        {{ form_label(form.firstName) }}
+                        {{ form_widget(form.firstName) }}
+                        {{ form_errors(form.firstName) }}
                     </div>
                     <div class="error-handling">
-                        {{ form_label(form.groups) }}
-                        {{ form_widget(form.groups) }}
-                        {{ form_errors(form.groups) }}
+                        {{ form_label(form.lastName) }}
+                        {{ form_widget(form.lastName) }}
+                        {{ form_errors(form.lastName) }}
+                    </div>
+                    <div class="error-handling">
+                        {{ form_label(form.birthDay) }}
+                        {{ form_widget(form.birthDay) }}
+                        {{ form_errors(form.birthDay) }}
+                    </div>
+                    <div class="error-handling">
+                        {{ form_label(form.biography) }}
+                        {{ form_widget(form.biography) }}
+                        {{ form_errors(form.biography) }}
                     </div>
                     <br>
                     <input type="submit" VALUE="Save" class="btn btn-large btn-primary">
