@@ -27,22 +27,13 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin", name="team_show_admin")
+     * @Route("/admin/", name="show_admin")
      * @Template("AppBundle:admin:show.html.twig")
      *
      */
     public function showAction()
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->findAll();
-
-        if (!$teams) {
-            throw $this->createNotFoundException(
-                'Not found');
-        }
-
-        return ['teams' => $teams];
+        return [];
     }
 
     /**
