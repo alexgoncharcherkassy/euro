@@ -244,7 +244,7 @@ class AdminController extends Controller
         }
 
         $em->flush();
-        $return;
+        return;
 
 
     }
