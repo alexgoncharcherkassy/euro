@@ -12,24 +12,27 @@ class CountryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add("team", "entity", [
+                'class' => 'AppBundle\Entity\Team',
+                'property' => 'country',
+                'attr' => ['class' => 'form-control'],
+                'required'  => true
+            ])
             ->add("fullTitle", 'text', [
                 'label' => 'Enter full title',
                 'attr' => ['class' => 'form-control']
             ])
             ->add("description", 'textarea', [
                 'label' => 'Enter description country',
-                'attr' => ['class' => 'form-control']
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 8
+                ]
             ]);
-            /*->add("team", "entity", [
-                'class' => new Team(),
-                'property' => 'id'
-            ]);*/
-         /* ->add('team', 'collection', [
-              'type' => new TeamType(),
-              'allow_add' => true,
-              'allow_delete' => true,
-              'by_reference' => false,
-              'cascade_validation' => true
+
+
+       /* ->add('team', 'choice', [
+                'choices' => ['id1' => 1, 'id2' => 2]
             ]);*/
 
     }

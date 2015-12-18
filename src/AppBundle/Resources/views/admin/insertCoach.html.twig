@@ -19,26 +19,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                     {{ form_start(form) }}
-                    <div class="error-handling">
-                        {{ form_label(form.firstName) }}
-                        {{ form_widget(form.firstName) }}
-                        {{ form_errors(form.firstName) }}
-                    </div>
-                    <div class="error-handling">
-                        {{ form_label(form.lastName) }}
-                        {{ form_widget(form.lastName) }}
-                        {{ form_errors(form.lastName) }}
-                    </div>
-                    <div class="error-handling">
-                        {{ form_label(form.birthDay) }}
-                        {{ form_widget(form.birthDay) }}
-                        {{ form_errors(form.birthDay) }}
-                    </div>
-                    <div class="error-handling">
-                        {{ form_label(form.biography) }}
-                        {{ form_widget(form.biography) }}
-                        {{ form_errors(form.biography) }}
-                    </div>
+                    {{ form_widget(form) }}
                     <br>
                     <input type="submit" VALUE="Save" class="btn btn-large btn-primary">
                     <div class="hidden">

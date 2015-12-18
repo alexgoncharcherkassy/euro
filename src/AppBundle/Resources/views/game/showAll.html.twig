@@ -24,6 +24,11 @@
                         <td>{{ game.dateGame|date('d-m-Y') }}</td>
                     </tr>
                 {% endfor %}
+                <tr>
+                    <div class="ajaxdate">
+
+                    </div>
+                </tr>
             </table>
             {% if games.getTotalItemCount > 10 %}
                 <div class="text-center">
@@ -45,9 +50,10 @@
                     url: "{{ path('game_show_ajax') }}",
                     success: function(data){
                       /*  $.each(data.games, function(i, val ) {
+  console.log(data);
 
                                 alert('val: ' + val);
-                            })
+                           })
 */
 
                     }

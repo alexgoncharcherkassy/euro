@@ -10,6 +10,7 @@ use AppBundle\Entity\ResultGame;
 use AppBundle\Entity\Team;
 use AppBundle\Form\CoachType;
 use AppBundle\Form\CountryType;
+use AppBundle\Form\GameType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Form\TeamType;
 use AppBundle\Model\SetResults;
@@ -45,7 +46,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/insert/team", name="team_insert_admin")
+     * @Route("/admin/insert/team/", name="team_insert_admin")
      * @Template("AppBundle:admin:insertTeam.html.twig")
      *
      */
@@ -73,21 +74,21 @@ class AdminController extends Controller
     }
 
      /**
-     * @Route("/admin/insert/country/{id}", name="country_insert_admin", requirements={"id" : "\d+"})
+     * @Route("/admin/insert/country/", name="country_insert_admin")
      * @Template("@App/admin/insertCountry.html.twig")
      */
-    public function insertCountryAction(Request $request, $id)
+    public function insertCountryAction(Request $request)
     {
         $country = new Country();
         $em = $this->getDoctrine()->getManager();
-        $team = $em->getRepository('AppBundle:Team')->find($id);
+     //   $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new CountryType(), $country);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-
+                $team = $form->getData()->getTeam();
                 $country->setTeam($team);
                 $em->persist($country);
                 $em->flush();
@@ -97,25 +98,26 @@ class AdminController extends Controller
                 return $this->redirectToRoute('team_insert_admin');
             }
         }
+
         return ['form' => $form->createView()];
     }
 
     /**
-     * @Route("/admin/insert/coach/{id}", name="coach_insert_admin", requirements={"id" : "\d+"})
+     * @Route("/admin/insert/coach/", name="coach_insert_admin")
      * @Template("@App/admin/insertCoach.html.twig")
      */
-    public function insertCoachAction(Request $request, $id)
+    public function insertCoachAction(Request $request)
     {
         $coach = new Coach();
         $em = $this->getDoctrine()->getManager();
-        $team = $em->getRepository('AppBundle:Team')->find($id);
+    //    $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new CoachType(), $coach);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-
+                $team = $form->getData()->getTeam();
                 $coach->setTeam($team);
                 $em->persist($coach);
                 $em->flush();
@@ -131,21 +133,21 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/insert/player/{id}", name="player_insert_admin", requirements={"id" : "\d+"})
+     * @Route("/admin/insert/player/", name="player_insert_admin")
      * @Template("@App/admin/insertPlayer.html.twig")
      */
-    public function insertPlayerAction(Request $request, $id)
+    public function insertPlayerAction(Request $request)
     {
         $player = new Player();
         $em = $this->getDoctrine()->getManager();
-        $team = $em->getRepository('AppBundle:Team')->find($id);
+    //    $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new PlayerType(), $player);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-
+                $team = $form->getData()->getTeam();
                 $player->setTeam($team);
                 $em->persist($player);
                 $em->flush();
@@ -163,86 +165,87 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/game/", name="game_insert_admin")
-     *
+     * @Template("@App/admin/insertGame.html.twig")
      */
-    public function generateGameAction()
+    public function insertGameAction(Request $request)
     {
 
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->findAll();
-
-        if (!$teams) {
-            throw $this->createNotFoundException(
-                'Not found');
-        }
-        $count = 0;
-        $arr = array();
-        foreach ($teams as $team) {
-            $arr[$count] = $team;
-            $count++;
-        }
-
-        $faker = Factory::create();
-
+        $game = new Game();
         $em = $this->getDoctrine()->getManager();
-        for ($i = 0; $i < 20; $i++) {
-            $game = new Game();
-            $game->setDateGame($faker->dateTime);
-            $goals1 = rand(0, 5);
-            $goals2 = rand(0, 5);
-            $team1 = ($arr[rand(0, $count-1)]);
-            $team2 = ($arr[rand(0, $count-1)]);
-            $game->setGoals1($goals1);
-            $game->setGoals2($goals2);
-            $game->setTeam1($team1->getCountry());
-            $game->setTeam2($team2->getCountry());
-            $game->setTeam1Id($team1);
-            $game->setTeam2Id($team2);
-            $em->persist($game);
+        //    $team = $em->getRepository('AppBundle:Team')->find($id);
+
+        $form = $this->createForm(new GameType(), $game);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $team1 = $form->getData()->getTeam1Id();
+                $team2 = $form->getData()->getTeam2Id();
+                $game->setTeam1Id($team1);
+                $game->setTeam2Id($team2);
+                $game->setTeam1($team1->getCountry());
+                $game->setTeam2($team2->getCountry());
+                $em->persist($game);
+                $em->flush();
+                $f = $form->getData();
+
+                if ($form->getData()->getGoals1() > $form->getData()->getGoals2()) {
+                    $this->insertResultGameAction($team1, 'win');
+                    $this->insertResultGameAction($team2, 'defeat');
+                } elseif ($form->getData()->getGoals1() < $form->getData()->getGoals2()) {
+                    $this->insertResultGameAction($team1, 'defeat');
+                    $this->insertResultGameAction($team2, 'win');
+                } else {
+                    $this->insertResultGameAction($team1, 'draw');
+                    $this->insertResultGameAction($team2, 'draw');
+                }
+
+
+                $this->addFlash('notice', 'Game '. $game->getTeam1().' vs '.$game->getTeam2().' added');
+
+                return $this->redirectToRoute('team_insert_admin');
+            }
         }
-        $em->flush();
-
-        $this->addFlash(
-            'notice',
-            'Add games!'
-        );
-
-        return $this->forward('AppBundle:Admin:show');
+        return ['form' => $form->createView()];
 
     }
 
     /**
-     * @Route("/admin/insert/result/{id}", name="result_insert_admin", requirements={"id" : "\d+"})
+     *
      */
-    public function generateResultGameAction($id)
+    public function insertResultGameAction(Team $team, $status = '')
     {
-        $teams = $this->getDoctrine()
-            ->getRepository('AppBundle:Team')
-            ->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $result = $em->getRepository('AppBundle:ResultGame')
+            ->findOneBy(array('team' => $team->getId()));
 
-        if (!$teams) {
-            throw $this->createNotFoundException(
-                'Not found');
+        $countGame = $result->getCountGame();
+        $winGame = $result->getWinGame();
+        $drawGame = $result->getDrawGame();
+        $defeatGame = $result->getDefeatGame();
+        $points = $result->getPoints();
+
+        switch ($status) {
+            case 'win' :
+                $result->setCountGame(++$countGame);
+                $result->setWinGame(++$winGame);
+                $result->setPoints(3 * $winGame + $drawGame);
+                break;
+            case 'defeat' :
+                $result->setCountGame(++$countGame);
+                $result->setDefeatGame(++$defeatGame);
+                $result->setPoints(3 * $winGame + $drawGame);
+                break;
+            case 'draw' :
+                $result->setCountGame(++$countGame);
+                $result->setDrawGame(++$drawGame);
+                $result->setPoints(3 * $winGame + $drawGame);
+                break;
         }
 
-        $em = $this->getDoctrine()->getManager();
-
-        $result = new ResultGame();
-        $result->setTeam($teams);
-        $result->setCountGame(rand(0, 20));
-        $result->setWinGame(rand(0, 15));
-        $result->setDrawGame(rand(0, 15));
-        $result->setDefeatGame(rand(0, 15));
-        $result->setPoints(rand(0, 30));
-        $em->persist($result);
         $em->flush();
+        $return;
 
-        $this->addFlash(
-            'notice',
-            'Add results!'
-        );
 
-        return $this->forward('AppBundle:Admin:show');
     }
 }
