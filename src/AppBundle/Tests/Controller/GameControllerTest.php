@@ -10,14 +10,13 @@ namespace AppBundle\Tests\Controller;
 
 
 use AppBundle\Tests\TestBaseWeb;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GameTest extends TestBaseWeb
 {
     public function testShowAll()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/games/all');
+        $crawler = $client->request('GET', '/games/page/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Games', $crawler->filter('body')->text());
 
