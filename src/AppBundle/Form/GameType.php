@@ -12,6 +12,7 @@ class GameType extends AbstractType
     {
         $builder
             ->add("team1Id", "entity", [
+                'label' => 'Team #1',
                 'class' => 'AppBundle\Entity\Team',
                 'property' => 'country',
                 'attr' => ['class' => 'form-control'],
@@ -22,6 +23,7 @@ class GameType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add("team2Id", "entity", [
+                'label' => 'Team #2',
                 'class' => 'AppBundle\Entity\Team',
                 'property' => 'country',
                 'attr' => ['class' => 'form-control'],

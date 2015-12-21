@@ -19,7 +19,7 @@
                 {% for team in teams %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country }}</a></td>
+                        <td><a href="{{ path('team_show', {'id': team.id}) }}">{{ team.country|title }}</a></td>
                         <td><strong>{{ team.groups|upper }}</strong></td>
                         <td>{{ team.results.countGame }}</td>
                         <td>{{ team.results.winGame }}</td>

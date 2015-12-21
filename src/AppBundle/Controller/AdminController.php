@@ -13,11 +13,9 @@ use AppBundle\Form\CountryType;
 use AppBundle\Form\GameType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Form\TeamType;
-use AppBundle\Model\SetResults;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Faker\Factory;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -44,19 +42,18 @@ class AdminController extends Controller
     public function insertTeamAction(Request $request)
     {
         $team = new Team();
-        $results = new SetResults();
         $form = $this->createForm(new TeamType(), $team);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $res = $results->setStartResult($team);
+                $res = $this->setStartResult($team);
                 $em->persist($res);
                 $em->persist($team);
                 $em->flush();
 
-                $this->addFlash('notice', 'Country '. $team->getCountry(). ' added');
+                $this->addFlash('notice', 'Country ' . $team->getCountry() . ' added');
 
                 return $this->redirectToRoute('team_insert_admin');
             }
@@ -64,7 +61,7 @@ class AdminController extends Controller
         return ['form' => $form->createView()];
     }
 
-     /**
+    /**
      * @Route("/admin/insert/country/", name="country_insert_admin")
      * @Template("@App/admin/insertCountry.html.twig")
      */
@@ -72,21 +69,18 @@ class AdminController extends Controller
     {
         $country = new Country();
         $em = $this->getDoctrine()->getManager();
-     //   $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new CountryType(), $country);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $team = $form->getData()->getTeam();
-                $country->setTeam($team);
                 $em->persist($country);
                 $em->flush();
 
-                $this->addFlash('notice', 'Description country '. $country->getFullTitle(). ' added');
+                $this->addFlash('notice', 'Description country ' . $country->getFullTitle() . ' added');
 
-                return $this->redirectToRoute('team_insert_admin');
+                return $this->redirectToRoute('show_admin');
             }
         }
 
@@ -101,7 +95,6 @@ class AdminController extends Controller
     {
         $coach = new Coach();
         $em = $this->getDoctrine()->getManager();
-    //    $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new CoachType(), $coach);
 
@@ -109,14 +102,13 @@ class AdminController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $team = $form->getData()->getTeam();
-                $coach->setTeam($team);
                 $em->persist($coach);
                 $em->flush();
 
-                $this->addFlash('notice', 'Coach '. $coach->getFirstName().' '.$coach->getLastName().
-                    ' added to team '. $team->getCountry());
+                $this->addFlash('notice', 'Coach ' . $coach->getFirstName() . ' ' . $coach->getLastName() .
+                    ' added to team ' . $team->getCountry());
 
-                return $this->redirectToRoute('team_insert_admin');
+                return $this->redirectToRoute('show_admin');
             }
         }
         return ['form' => $form->createView()];
@@ -131,7 +123,6 @@ class AdminController extends Controller
     {
         $player = new Player();
         $em = $this->getDoctrine()->getManager();
-    //    $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new PlayerType(), $player);
 
@@ -139,14 +130,13 @@ class AdminController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $team = $form->getData()->getTeam();
-                $player->setTeam($team);
                 $em->persist($player);
                 $em->flush();
 
-                $this->addFlash('notice', 'Player '. $player->getFirstName().' '.$player->getLastName().
-                    ' added to team '. $team->getCountry());
+                $this->addFlash('notice', 'Player ' . $player->getFirstName() . ' ' . $player->getLastName() .
+                    ' added to team ' . $team->getCountry());
 
-                return $this->redirectToRoute('team_insert_admin');
+                return $this->redirectToRoute('player_insert_admin');
             }
         }
         return ['form' => $form->createView()];
@@ -163,7 +153,6 @@ class AdminController extends Controller
 
         $game = new Game();
         $em = $this->getDoctrine()->getManager();
-        //    $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $form = $this->createForm(new GameType(), $game);
 
@@ -172,13 +161,10 @@ class AdminController extends Controller
             if ($form->isValid()) {
                 $team1 = $form->getData()->getTeam1Id();
                 $team2 = $form->getData()->getTeam2Id();
-                $game->setTeam1Id($team1);
-                $game->setTeam2Id($team2);
                 $game->setTeam1($team1->getCountry());
                 $game->setTeam2($team2->getCountry());
                 $em->persist($game);
                 $em->flush();
-                $f = $form->getData();
 
                 if ($form->getData()->getGoals1() > $form->getData()->getGoals2()) {
                     $this->insertResultGameAction($team1, 'win');
@@ -192,9 +178,9 @@ class AdminController extends Controller
                 }
 
 
-                $this->addFlash('notice', 'Game '. $game->getTeam1().' vs '.$game->getTeam2().' added');
+                $this->addFlash('notice', 'Game ' . $game->getTeam1() . ' vs ' . $game->getTeam2() . ' added');
 
-                return $this->redirectToRoute('team_insert_admin');
+                return $this->redirectToRoute('homepage');
             }
         }
         return ['form' => $form->createView()];
@@ -202,9 +188,10 @@ class AdminController extends Controller
     }
 
     /**
-     *
+     * @param Team $team
+     * @param string $status
      */
-    public function insertResultGameAction(Team $team, $status = '')
+    private function insertResultGameAction(Team $team, $status = '')
     {
         $em = $this->getDoctrine()->getManager();
         $result = $em->getRepository('AppBundle:ResultGame')
@@ -214,7 +201,6 @@ class AdminController extends Controller
         $winGame = $result->getWinGame();
         $drawGame = $result->getDrawGame();
         $defeatGame = $result->getDefeatGame();
-        $points = $result->getPoints();
 
         switch ($status) {
             case 'win' :
@@ -235,8 +221,114 @@ class AdminController extends Controller
         }
 
         $em->flush();
+
         return;
-
-
     }
+
+    /**
+     * @param Team $team
+     * @return ResultGame
+     */
+    private function setStartResult(Team $team)
+    {
+        $results = new ResultGame();
+
+        $results->setCountGame(0);
+        $results->setWinGame(0);
+        $results->setDrawGame(0);
+        $results->setDefeatGame(0);
+        $results->setPoints(0);
+        $results->setTeam($team);
+
+        return $results;
+    }
+
+    /**
+     * @Route("/admin/delete/team/{id}", name="team_delete_admin")
+     * @Template("@App/admin/deleteTeam.html.twig")
+     */
+    public function deleteTeamAction($id = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($id !== null) {
+            $team = $em->getRepository('AppBundle:Team')
+                ->find($id);
+
+            $em->remove($team);
+            $em->flush();
+
+            $this->addFlash('notice', 'Team deleted');
+
+            return $this->redirectToRoute('show_admin');
+        }
+        $team = $em->getRepository('AppBundle:Team')
+            ->findAll();
+
+        return ['teams' => $team];
+    }
+
+    /**
+     * @Route("/admin/delete/team/elements/{id}", name="elements_delete_admin")
+     * @Template("@App/admin/deleteTeamElements.html.twig")
+     */
+    public function deleteTeamElemwntsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $team = $em->getRepository('AppBundle:Team')
+            ->showTeamId($id);
+
+        return ['teams' => $team];
+    }
+
+    /**
+     * @Route("/admin/delete/country/{id}", name="country_delete_admin")
+     */
+    public function deleteCountryAction($id = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $country = $em->getRepository('AppBundle:Country')
+            ->find($id);
+
+        $em->remove($country);
+        $em->flush();
+
+        $this->addFlash('notice', 'Country deleted');
+
+        return $this->redirectToRoute('show_admin');
+    }
+
+    /**
+     * @Route("/admin/delete/coach/{id}", name="coach_delete_admin")
+     */
+    public function deleteCoachAction($id = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $coach = $em->getRepository('AppBundle:Coach')
+            ->find($id);
+
+        $em->remove($coach);
+        $em->flush();
+
+        $this->addFlash('notice', 'Coach deleted');
+
+        return $this->redirectToRoute('show_admin');
+    }
+
+    /**
+     * @Route("/admin/delete/player/{id}", name="player_delete_admin")
+     */
+    public function deletePlayerAction($id = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $player = $em->getRepository('AppBundle:Player')
+            ->find($id);
+
+        $em->remove($player);
+        $em->flush();
+
+        $this->addFlash('notice', 'Player deleted');
+
+        return $this->redirectToRoute('show_admin');
+    }
+
 }

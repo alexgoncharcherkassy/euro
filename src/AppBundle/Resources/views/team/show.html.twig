@@ -10,11 +10,13 @@
 
             {% for player in players %}
                 <p>
-                    Country: <a href="{{ path('country_show', {'id': player.countries.id }) }}"> {{ player.countries.fullTitle }} </a>
+                    Country: <a
+                            href="{{ path('country_show', {'id': player.countries.id }) }}"> {{ player.countries.fullTitle|title }} </a>
                 </p>
                 {% for coach in player.coaches %}
                     <p>
-                        Coach: <a href="{{ path('coach_show', {'id' : coach.id }) }}"> {{ coach.firstName }} {{ coach.lastName }} </a>
+                        Coach: <a
+                                href="{{ path('coach_show', {'id' : coach.id }) }}"> {{ coach.firstName|capitalize }} {{ coach.lastName|capitalize }} </a>
                     </p>
                 {% endfor %}
 
@@ -25,8 +27,8 @@
                     {% for man in player.players %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('player_show', {'id': man.id }) }}">{{ man.firstName }}</a></td>
-                            <td><a href="{{ path('player_show', {'id': man.id}) }}">{{ man.lastName }}</a></td>
+                            <td><a href="{{ path('player_show', {'id': man.id }) }}">{{ man.firstName|capitalize }}</a></td>
+                            <td><a href="{{ path('player_show', {'id': man.id}) }}">{{ man.lastName|capitalize }}</a></td>
                         </tr>
                     {% endfor %}
                 </table>

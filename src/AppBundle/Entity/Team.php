@@ -37,7 +37,7 @@ class Team
     private $groups;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Country", mappedBy="team")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Country", mappedBy="team", cascade={"persist"})
      */
     private $countries;
 
@@ -52,7 +52,7 @@ class Team
     private $players;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\ResultGame", mappedBy="team")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\ResultGame", mappedBy="team", cascade={"persist"})
      */
     private $results;
 
