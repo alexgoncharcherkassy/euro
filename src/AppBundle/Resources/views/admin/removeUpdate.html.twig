@@ -6,17 +6,21 @@
     <div class="container">
         <div class="jumbotron">
             <h2>
-                Remove Team
+                Remove and Update
             </h2>
             <table class="table table-striped">
                 <th>Team</th>
                 <th>Delete</th>
+                <th>Update</th>
                 {% for team in teams %}
                     <tr>
                         <td><a href="{{ path('elements_delete_admin', {'id' : team.id}) }}">{{ team.country }}</a></td>
                         <td><a onclick="return confirm('Are you shure?') ? true : false;" href="{{ path('team_delete_admin', {'id' : team.id}) }}">
                                 <i style="width:auto; font-size:2em; line-height:1em; height:auto"
                                    class="glyphicon glyphicon-trash"></i></a></td>
+                        <td><a href="{{ path('team_update_admin', {'id' : team.id}) }}">
+                                <i style="width:auto; font-size:2em; line-height:1em; height:auto"
+                                   class="glyphicon glyphicon-refresh"></i></a></td>
                     </tr>
                 {% endfor %}
             </table>

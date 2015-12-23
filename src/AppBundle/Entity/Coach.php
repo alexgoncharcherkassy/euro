@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="coach")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CoachRepository")
  */
-class Coach
+class Coach implements \JsonSerializable
 {
     /**
      * @var int
@@ -54,6 +54,13 @@ class Coach
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="coaches")
      */
     private $team;
+
+    function jsonSerialize()
+    {
+        return [
+          'coachLastName' => $this->getLastName()
+        ];
+    }
 
 
     /**

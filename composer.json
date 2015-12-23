@@ -20,7 +20,8 @@
         "fzaninotto/faker": "^1.5",
         "knplabs/knp-paginator-bundle": "^2.5",
 
-        "hautelook/alice-bundle": "0.2"
+        "hautelook/alice-bundle": "0.2",
+        "friendsofsymfony/jsrouting-bundle": "1.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

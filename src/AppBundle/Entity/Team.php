@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="team")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TeamRepository")
  */
-class Team
+class Team implements \JsonSerializable
 {
     /**
      * @var int
@@ -66,6 +66,15 @@ class Team
      */
     private $gameTeam2;
 
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'country' => $this->getCountry()
+        ];
+    }
+
+
     /**
      *
      */
@@ -115,12 +124,12 @@ class Team
     {
         $this->coaches->removeElement($coach);
     }
-/*
+    /*
 
 
-    /**
-     * @param Game $game
-     */
+        /**
+         * @param Game $game
+         */
     /**
      * @param Game $game
      */

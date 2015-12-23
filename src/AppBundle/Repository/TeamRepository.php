@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 
 /**
@@ -50,15 +51,34 @@ class TeamRepository extends EntityRepository
      * @param $id
      * @return array
      */
-    public function showTeamId($id)
+    public function showTeamId($data)
     {
         return $this->createQueryBuilder('t')
             ->select('t, p, c, cn')
             ->join('t.players', 'p')
             ->join('t.coaches', 'c')
             ->join('t.countries', 'cn')
-            ->where('t.id = :id')
-            ->setParameter('id', $id)
+            ->where('t.country LIKE :data')
+            ->orWhere('p.lastName LIKE :data')
+            ->orWhere('c.lastName LIKE :data')
+            ->orWhere('cn.fullTitle LIKE :data')
+            ->setParameter('data', '%'.$data.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllAjax($data)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t, p, c, cn')
+            ->join('t.players', 'p')
+            ->join('t.coaches', 'c')
+            ->join('t.countries', 'cn')
+            ->where('t.country LIKE :data')
+            ->orWhere('p.lastName LIKE :data')
+            ->orWhere('c.lastName LIKE :data')
+            ->orWhere('cn.fullTitle LIKE :data')
+            ->setParameter('data', '%'.$data.'%')
             ->getQuery()
             ->getResult();
     }

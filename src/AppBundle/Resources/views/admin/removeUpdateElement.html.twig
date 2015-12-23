@@ -12,14 +12,18 @@
                 <th>Element</th>
                 <th>Role</th>
                 <th>Delete</th>
+                <th>Update</th>
                 {% for team in teams %}
-                        <tr>
-                            <td>{{ team.countries.fullTitle }}</td>
-                            <td>Description country</td>
-                            <td><a onclick="return confirm('Are you shure?') ? true : false;" href="{{ path('country_delete_admin', {'id' : team.countries.id}) }}">
-                                    <i style="width:auto; font-size:2em; line-height:1em; height:auto"
-                                       class="glyphicon glyphicon-trash"></i></a></td>
-                        </tr>
+                    <tr>
+                        <td>{{ team.countries.fullTitle }}</td>
+                        <td>Description country</td>
+                        <td><a onclick="return confirm('Are you shure?') ? true : false;" href="{{ path('country_delete_admin', {'id' : team.countries.id}) }}">
+                                <i style="width:auto; font-size:2em; line-height:1em; height:auto"
+                                   class="glyphicon glyphicon-trash"></i></a></td>
+                        <td><a href="{{ path('country_update_admin', {'id' : team.countries.id}) }}">
+                                <i style="width:auto; font-size:2em; line-height:1em; height:auto"
+                                   class="glyphicon glyphicon-refresh"></i></a></td>
+                    </tr>
                     {% for coach in team.coaches  %}
                         <tr>
                             <td>{{ coach.firstName }} {{ coach.lastName }}</td>
@@ -27,6 +31,9 @@
                             <td><a onclick="return confirm('Are you shure?') ? true : false;" href="{{ path('coach_delete_admin', {'id' : coach.id}) }}">
                                     <i style="width:auto; font-size:2em; line-height:1em; height:auto"
                                        class="glyphicon glyphicon-trash"></i></a></td>
+                            <td><a href="{{ path('coach_update_admin', {'id' : coach.id}) }}">
+                                    <i style="width:auto; font-size:2em; line-height:1em; height:auto"
+                                       class="glyphicon glyphicon-refresh"></i></a></td>
                         </tr>
                     {% endfor %}
                     {% for player in team.players %}
@@ -36,6 +43,9 @@
                             <td><a onclick="return confirm('Are you shure?') ? true : false;" href="{{ path('player_delete_admin', {'id' : player.id}) }}">
                                     <i style="width:auto; font-size:2em; line-height:1em; height:auto"
                                        class="glyphicon glyphicon-trash"></i></a></td>
+                            <td><a href="{{ path('player_update_admin', {'id' : player.id}) }}">
+                                    <i style="width:auto; font-size:2em; line-height:1em; height:auto"
+                                       class="glyphicon glyphicon-refresh"></i></a></td>
                         </tr>
                     {% endfor %}
                 {% endfor %}

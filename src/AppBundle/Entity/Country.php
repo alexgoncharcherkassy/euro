@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="country")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CountryRepository")
  */
-class Country
+class Country implements \JsonSerializable
 {
     /**
      * @var int
@@ -40,6 +40,13 @@ class Country
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Team", inversedBy="countries")
      */
     private $team;
+
+    function jsonSerialize()
+    {
+        return [
+          'fullTitle' =>$this->getFullTitle()
+        ];
+    }
 
 
     /**

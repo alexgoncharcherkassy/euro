@@ -37,29 +37,17 @@
                     <a class="btn btn-large btn-primary" style="margin-right: 40px; margin-bottom: 40px" href="{{ path('coach_insert_admin') }}">Add coach</a>
                     <a class="btn btn-large btn-primary" style="margin-right: 40px; margin-bottom: 40px" href="{{ path('player_insert_admin') }}">Add player</a>
                 </div>
+
                 <div class="span2">
                     <div class="well well-small">
                         <h4>
-                            <a href="#" class="popOver" data-placement="top"
-                               style="display:block; text-decoration:none" id="update">
-                                <i style="width:auto; font-size:2em; line-height:1em; height:auto"
-                                   class="glyphicon glyphicon-refresh"></i>
-                                <span><br/>Update</span>
-                            </a>
-                        </h4>
-                        <a href="#">
-                            <small>view details</small>
-                        </a>
-                    </div>
-                </div>
-                <div class="span2">
-                    <div class="well well-small">
-                        <h4>
-                            <a href="javascript:;" onclick="showTooltipRemove()" class="popOver" data-placement="top"
+                            <a href="javascript:;" onclick="showTooltipRemoveUpd()" class="popOver" data-placement="top"
                                style="display:block; text-decoration:none" id="remove">
                                 <i style="width:auto; font-size:2em; line-height:1em; height:auto"
                                    class="glyphicon glyphicon-trash"></i>
-                                <span><br/>Delete</span>
+                                <i style="width:auto; font-size:2em; line-height:1em; height:auto"
+                                   class="glyphicon glyphicon-refresh"></i>
+                                <span><br/>Delete and Update</span>
                             </a>
                         </h4>
                         <a href="#">
@@ -68,7 +56,7 @@
                     </div>
                 </div>
                 <div id="tooltipremove" style="display: none;">
-                    <a class="btn btn-large btn-primary" style="margin-bottom: 40px" href="{{ path('team_delete_admin') }}">Remove team</a>
+                    <a class="btn btn-large btn-primary" style="margin-bottom: 40px" href="{{ path('team_delete_admin') }}">Remove and Update</a>
                 </div>
             </div>
         </div>
@@ -93,19 +81,7 @@ myDiv.style.display = 'none';
 return false;
 }
 
-function showTooltipUpdate()
-{
-    var myDiv = document.getElementById('tooltipupdate');
-    var myLink = document.getElementById('update');
-    if(myDiv.style.display == 'none'){
-        myDiv.style.display = 'block';
-    } else {
-        myDiv.style.display = 'none';
-    }
-    return false;
-}
-
-function showTooltipRemove()
+function showTooltipRemoveUpd()
 {
     var myDiv = document.getElementById('tooltipremove');
     var myLink = document.getElementById('remove');

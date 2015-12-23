@@ -16,6 +16,7 @@ use AppBundle\Form\TeamType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -36,7 +37,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/team/", name="team_insert_admin")
-     * @Template("AppBundle:admin:insertTeam.html.twig")
+     * @Template("@App/admin/insertForm.html.twig")
      *
      */
     public function insertTeamAction(Request $request)
@@ -63,7 +64,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/country/", name="country_insert_admin")
-     * @Template("@App/admin/insertCountry.html.twig")
+     * @Template("@App/admin/insertForm.html.twig")
      */
     public function insertCountryAction(Request $request)
     {
@@ -89,7 +90,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/coach/", name="coach_insert_admin")
-     * @Template("@App/admin/insertCoach.html.twig")
+     * @Template("@App/admin/insertForm.html.twig")
      */
     public function insertCoachAction(Request $request)
     {
@@ -101,6 +102,9 @@ class AdminController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                /**
+                 * @var Team $team
+                 */
                 $team = $form->getData()->getTeam();
                 $em->persist($coach);
                 $em->flush();
@@ -117,7 +121,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/player/", name="player_insert_admin")
-     * @Template("@App/admin/insertPlayer.html.twig")
+     * @Template("@App/admin/insertForm.html.twig")
      */
     public function insertPlayerAction(Request $request)
     {
@@ -129,6 +133,9 @@ class AdminController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                /**
+                 * @var Team $team
+                 */
                 $team = $form->getData()->getTeam();
                 $em->persist($player);
                 $em->flush();
@@ -146,7 +153,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/insert/game/", name="game_insert_admin")
-     * @Template("@App/admin/insertGame.html.twig")
+     * @Template("@App/admin/insertForm.html.twig")
      */
     public function insertGameAction(Request $request)
     {
@@ -159,6 +166,10 @@ class AdminController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                /**
+                 * @var Team $team1
+                 * @var Team $team2
+                 */
                 $team1 = $form->getData()->getTeam1Id();
                 $team2 = $form->getData()->getTeam2Id();
                 $game->setTeam1($team1->getCountry());
@@ -245,7 +256,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/delete/team/{id}", name="team_delete_admin")
-     * @Template("@App/admin/deleteTeam.html.twig")
+     * @Template("@App/admin/removeUpdate.html.twig")
      */
     public function deleteTeamAction($id = null)
     {
@@ -269,7 +280,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/delete/team/elements/{id}", name="elements_delete_admin")
-     * @Template("@App/admin/deleteTeamElements.html.twig")
+     * @Template("@App/admin/removeUpdateElement.html.twig")
      */
     public function deleteTeamElemwntsAction($id)
     {
@@ -330,5 +341,161 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('show_admin');
     }
+
+    /**
+     * @Route("/admin/update/team/{id}", name="team_update_admin")
+     * @Template("@App/admin/updateForm.html.twig")
+     */
+    public function updateTeamAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $team = $em->getRepository('AppBundle:Team')
+            ->find($id);
+
+        $form = $this->createForm(new TeamType(), $team);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->flush();
+
+                $this->addFlash('notice', 'Team ' . $team->getCountry() .
+                    ' updated');
+
+                return $this->redirectToRoute('team_delete_admin');
+            }
+        }
+        return ['form' => $form->createView()];
+
+
+    }
+
+    /**
+     * @Route("/admin/update/country/{id}", name="country_update_admin")
+     * @Template("@App/admin/updateForm.html.twig")
+     */
+    public function updateCountryAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $country = $em->getRepository('AppBundle:Country')
+            ->find($id);
+
+        $form = $this->createForm(new CountryType(), $country);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->flush();
+
+                $this->addFlash('notice', 'Team ' . $country->getFullTitle() .
+                    ' updated');
+
+                return $this->redirectToRoute('team_delete_admin');
+            }
+        }
+        return ['form' => $form->createView()];
+
+
+    }
+
+    /**
+     * @Route("/admin/update/coach/{id}", name="coach_update_admin")
+     * @Template("@App/admin/updateForm.html.twig")
+     */
+    public function updateCoachAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $coach = $em->getRepository('AppBundle:Coach')
+            ->find($id);
+
+        $form = $this->createForm(new CoachType(), $coach);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->flush();
+
+                $this->addFlash('notice', 'Player ' . $coach->getFirstName() . ' ' . $coach->getLastName() .
+                    ' updated');
+
+                return $this->redirectToRoute('team_delete_admin');
+            }
+        }
+        return ['form' => $form->createView()];
+
+
+    }
+
+    /**
+     * @Route("/admin/update/player/{id}", name="player_update_admin")
+     * @Template("@App/admin/updateForm.html.twig")
+     */
+    public function updatePlayerAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $player = $em->getRepository('AppBundle:Player')
+            ->find($id);
+
+        $form = $this->createForm(new PlayerType(), $player);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->flush();
+
+                $this->addFlash('notice', 'Player ' . $player->getFirstName() . ' ' . $player->getLastName() .
+                    ' updated');
+
+                return $this->redirectToRoute('team_delete_admin');
+            }
+        }
+        return ['form' => $form->createView()];
+
+
+    }
+
+
+    /**
+     * @Route("/search/ajax", name="search_show_ajax")
+     */
+    public function findAjax(Request $request)
+    {
+        $data = $request->request->get('text');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $obj = $em->getRepository('AppBundle:Team')
+            ->findAllAjax($data);
+
+        return new JsonResponse(array('data' => $obj));
+
+    }
+
+    /**
+     * @Route("/search/", name="search_show")
+     * @Template("@App/admin/searchForm.html.twig")
+     */
+    public function findData(Request $request)
+    {
+        $err = '';
+        $data = $request->request->get('data');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $obj = $em->getRepository('AppBundle:Team')
+            ->findAllAjax($data);
+
+        if (!$obj) {
+            $err = 'ERROR: Not found!!!';
+        }
+
+        return ['data' => $obj, 'err' => $err];
+
+    }
+
 
 }
