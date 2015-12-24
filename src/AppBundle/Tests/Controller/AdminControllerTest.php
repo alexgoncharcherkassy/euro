@@ -28,7 +28,7 @@ class AdminControllerTest extends TestBaseWeb
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin/insert/team/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Team', $crawler->filter('body')->text());
+        $this->assertContains('Insert', $crawler->filter('body')->text());
 
     }
 
@@ -37,7 +37,7 @@ class AdminControllerTest extends TestBaseWeb
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin/insert/country/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('country', $crawler->filter('body')->text());
+        $this->assertContains('Insert', $crawler->filter('body')->text());
 
     }
 
@@ -46,7 +46,7 @@ class AdminControllerTest extends TestBaseWeb
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin/insert/coach/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Coach', $crawler->filter('body')->text());
+        $this->assertContains('Insert', $crawler->filter('body')->text());
 
     }
 
@@ -55,7 +55,7 @@ class AdminControllerTest extends TestBaseWeb
         $client = static::createClient();
         $crawler = $client->request('GET', '/admin/insert/player/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Player', $crawler->filter('body')->text());
+        $this->assertContains('Insert', $crawler->filter('body')->text());
 
     }
 
