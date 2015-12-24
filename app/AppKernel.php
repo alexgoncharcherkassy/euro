@@ -19,8 +19,6 @@ class AppKernel extends Kernel
 
 
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-
 
 
         );

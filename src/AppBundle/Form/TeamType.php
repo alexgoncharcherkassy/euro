@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,11 +12,11 @@ class TeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add("country", 'text', [
+            ->add("country", TextType::class, [
                 'label' => 'Enter team',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add("groups", 'text', [
+            ->add("groups", TextType::class, [
                 'label' => 'Enter group',
                 'attr' => ['class' => 'form-control']
             ]);

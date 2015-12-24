@@ -81,8 +81,9 @@
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
-
-    <script>
+   {# <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+     <script>
         var lnbox = {
             // Ссылка на DOM элемент поля ввода
             lninput: null,
@@ -123,6 +124,9 @@
             // Функция запроса на сервер, параметр text - текст из поля ввода
             requestUpdate: function(text) {
                 // Посылаем методом GET
+        //        var url = Routing.generate('search_show_ajax', {data : text});
+
+          //      $.post(url, text);
                 this.httpreq.open("POST", Routing.generate('search_show_ajax', {'data' : text}));
                 this.httpreq.send(null);
             },
@@ -181,7 +185,7 @@
                     this.requestUpdate(this.lninput.value);
             }
         }
-    </script>
+    </script>#}
 {% endblock %}
 </body>
 </html>

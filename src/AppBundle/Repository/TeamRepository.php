@@ -51,18 +51,15 @@ class TeamRepository extends EntityRepository
      * @param $id
      * @return array
      */
-    public function showTeamId($data)
+    public function showTeamId($id)
     {
         return $this->createQueryBuilder('t')
             ->select('t, p, c, cn')
             ->join('t.players', 'p')
             ->join('t.coaches', 'c')
             ->join('t.countries', 'cn')
-            ->where('t.country LIKE :data')
-            ->orWhere('p.lastName LIKE :data')
-            ->orWhere('c.lastName LIKE :data')
-            ->orWhere('cn.fullTitle LIKE :data')
-            ->setParameter('data', '%'.$data.'%')
+            ->where('t.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
     }

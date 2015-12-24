@@ -43,7 +43,7 @@ class AdminController extends Controller
     public function insertTeamAction(Request $request)
     {
         $team = new Team();
-        $form = $this->createForm(new TeamType(), $team);
+        $form = $this->createForm(TeamType::class, $team);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -56,7 +56,7 @@ class AdminController extends Controller
 
                 $this->addFlash('notice', 'Country ' . $team->getCountry() . ' added');
 
-                return $this->redirectToRoute('team_insert_admin');
+                return $this->redirectToRoute('show_admin');
             }
         }
         return ['form' => $form->createView()];
@@ -71,7 +71,7 @@ class AdminController extends Controller
         $country = new Country();
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new CountryType(), $country);
+        $form = $this->createForm(CountryType::class, $country);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -97,7 +97,7 @@ class AdminController extends Controller
         $coach = new Coach();
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new CoachType(), $coach);
+        $form = $this->createForm(CoachType::class, $coach);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -128,7 +128,7 @@ class AdminController extends Controller
         $player = new Player();
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new PlayerType(), $player);
+        $form = $this->createForm(PlayerType::class, $player);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -161,7 +161,7 @@ class AdminController extends Controller
         $game = new Game();
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new GameType(), $game);
+        $form = $this->createForm(GameType::class, $game);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -352,7 +352,7 @@ class AdminController extends Controller
         $team = $em->getRepository('AppBundle:Team')
             ->find($id);
 
-        $form = $this->createForm(new TeamType(), $team);
+        $form = $this->createForm(TeamType::class, $team);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -381,7 +381,7 @@ class AdminController extends Controller
         $country = $em->getRepository('AppBundle:Country')
             ->find($id);
 
-        $form = $this->createForm(new CountryType(), $country);
+        $form = $this->createForm(CountryType::class, $country);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -410,7 +410,7 @@ class AdminController extends Controller
         $coach = $em->getRepository('AppBundle:Coach')
             ->find($id);
 
-        $form = $this->createForm(new CoachType(), $coach);
+        $form = $this->createForm(CoachType::class, $coach);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -439,7 +439,7 @@ class AdminController extends Controller
         $player = $em->getRepository('AppBundle:Player')
             ->find($id);
 
-        $form = $this->createForm(new PlayerType(), $player);
+        $form = $this->createForm(PlayerType::class, $player);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -460,11 +460,11 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/search/ajax", name="search_show_ajax")
+     * @Route("/search/ajax/", name="search_show_ajax")
      */
     public function findAjax(Request $request)
     {
-        $data = $request->request->get('text');
+        $data = $request->request->get('data');
 
         $em = $this->getDoctrine()->getManager();
 

@@ -3,7 +3,10 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Team;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,17 +15,17 @@ class CountryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add("team", "entity", [
+            ->add("team", EntityType::class, [
                 'class' => 'AppBundle\Entity\Team',
                 'property' => 'country',
                 'attr' => ['class' => 'form-control'],
                 'required'  => true
             ])
-            ->add("fullTitle", 'text', [
+            ->add("fullTitle", TextType::class, [
                 'label' => 'Enter full title',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add("description", 'textarea', [
+            ->add("description", TextareaType::class, [
                 'label' => 'Enter description country',
                 'attr' => [
                     'class' => 'form-control',
