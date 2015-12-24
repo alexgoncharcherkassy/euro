@@ -12,8 +12,8 @@ case "$Keypress" in
 1) echo "install start..."
     npm install
     composer install
-    ./node_modules/bin/bower install
-    ./node_modules/bin/gulp
+    ./node_modules/.bin/bower install
+    ./node_modules/.bin/gulp
     php app/console doctrine:database:create
     php app/console doctrine:schema:update --force
     php app/console doctrine:fixtures:load -n
