@@ -16,6 +16,7 @@ use AppBundle\Form\TeamType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -258,88 +259,223 @@ class AdminController extends Controller
      * @Route("/admin/delete/team/{id}", name="team_delete_admin")
      * @Template("@App/admin/removeUpdate.html.twig")
      */
-    public function deleteTeamAction($id = null)
+    public function deleteTeamAction(Request $request, $id = null)
     {
         $em = $this->getDoctrine()->getManager();
-        if ($id !== null) {
-            $team = $em->getRepository('AppBundle:Team')
-                ->find($id);
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('team_delete_admin', ['id' => $id]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-trash btn-link'
+                ]
+            ])
+            ->getForm();
 
-            $em->remove($team);
-            $em->flush();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
 
-            $this->addFlash('notice', 'Team deleted');
+            if ($id !== null) {
+                $team = $em->getRepository('AppBundle:Team')
+                    ->find($id);
+                $country = $em->getRepository('AppBundle:Country')
+                    ->findOneBy(array('team' => $id));
+                $coaches = $em->getRepository('AppBundle:Coach')
+                    ->findBy(array('team' => $id));
+                $players = $em->getRepository('AppBundle:Player')
+                    ->findBy(array('team' => $id));
+                $games = $em->getRepository('AppBundle:Game')
+                    ->showGame($id);
+                $result = $em->getRepository('AppBundle:ResultGame')
+                    ->findOneBy(array('team' => $id));
 
-            return $this->redirectToRoute('show_admin');
+                foreach ($coaches as $coach) {
+                    $em->remove($coach);
+                }
+                foreach ($players as $player) {
+                    $em->remove($player);
+                }
+                /**
+                 * @var Game $game
+                 */
+                foreach ($games as $game) {
+                    $game->setTeam1Id(null);
+                    $game->setTeam2Id(null);
+                    $em->remove($game);
+                }
+                $em->remove($result);
+                $em->remove($country);
+                $em->remove($team);
+                $em->flush();
+
+                $this->addFlash('notice', 'Team deleted');
+
+                return $this->redirectToRoute('show_admin');
+            }
+
         }
         $team = $em->getRepository('AppBundle:Team')
             ->findAll();
+        $formDel = [];
+        foreach ($team as $obj) {
+            $formDel[$obj->getId()] = $this->createFormDelete($obj->getId())->createView();
+        }
 
-        return ['teams' => $team];
+        return ['teams' => $team, 'form' => $formDel];
+    }
+
+    private function createFormDelete($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('team_delete_admin', ['id' => $id]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-trash btn-link'
+                ]
+            ])
+            ->getForm();
     }
 
     /**
      * @Route("/admin/delete/team/elements/{id}", name="elements_delete_admin")
      * @Template("@App/admin/removeUpdateElement.html.twig")
      */
-    public function deleteTeamElemwntsAction($id)
+    public function deleteTeamElemwntsAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $team = $em->getRepository('AppBundle:Team')
             ->showTeamId($id);
+        /*
+                $coach ='';
+                $i = 0;
+                $j = 0;
+                $k = 0;
+                foreach ($team as $obj) {
+                    $coach[$i++] = $obj->getCoaches()->getValues();
+
+                }
+                foreach ($coach as $c) {
+                    $coachAll[$c[$k++]->getId()] = $this->createFormDeleteCoach($c[$j++]->getId())->createView();
+                }*/
+        //   $collect = $team->getCoaches();
+        //     $coach = $collect->map(function($entity) { return $entity->getId(); });
 
         return ['teams' => $team];
     }
 
+    private function createFormDeleteCoach($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('coach_delete_admin', ['id' => $id]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-trash btn-link'
+                ]
+            ])
+            ->getForm();
+    }
+
     /**
      * @Route("/admin/delete/country/{id}", name="country_delete_admin")
+     * @Template("@App/admin/del.html.twig")
      */
-    public function deleteCountryAction($id = null)
+    public function deleteCountryAction(Request $request, $id = null)
     {
         $em = $this->getDoctrine()->getManager();
         $country = $em->getRepository('AppBundle:Country')
             ->find($id);
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('country_delete_admin', ['id' => $id]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-trash btn-link'
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
 
-        $em->remove($country);
-        $em->flush();
+            $em->remove($country);
+            $em->flush();
 
-        $this->addFlash('notice', 'Country deleted');
+            $this->addFlash('notice', 'Country deleted');
 
-        return $this->redirectToRoute('show_admin');
+            return $this->redirectToRoute('show_admin');
+        }
+        return ['form' => $form->createView()];
     }
+
 
     /**
      * @Route("/admin/delete/coach/{id}", name="coach_delete_admin")
+     * @Template("@App/admin/del.html.twig")
      */
-    public function deleteCoachAction($id = null)
+    public function deleteCoachAction(Request $request, $id = null)
     {
         $em = $this->getDoctrine()->getManager();
         $coach = $em->getRepository('AppBundle:Coach')
             ->find($id);
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('coach_delete_admin', ['id' => $id]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-trash btn-link'
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
 
-        $em->remove($coach);
-        $em->flush();
+            $em->remove($coach);
+            $em->flush();
 
-        $this->addFlash('notice', 'Coach deleted');
+            $this->addFlash('notice', 'Coach deleted');
 
-        return $this->redirectToRoute('show_admin');
+            return $this->redirectToRoute('show_admin');
+        }
+        return ['form' => $form->createView()];
     }
 
     /**
      * @Route("/admin/delete/player/{id}", name="player_delete_admin")
+     * @Template("@App/admin/del.html.twig")
      */
-    public function deletePlayerAction($id = null)
+    public function deletePlayerAction(Request $request, $id = null)
     {
         $em = $this->getDoctrine()->getManager();
         $player = $em->getRepository('AppBundle:Player')
             ->find($id);
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('player_delete_admin', ['id' => $id]))
+            ->setMethod('DELETE')
+            ->add('submit', SubmitType::class, [
+                'label' => ' ',
+                'attr' => [
+                    'class' => 'glyphicon glyphicon-trash btn-link'
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
 
-        $em->remove($player);
-        $em->flush();
 
-        $this->addFlash('notice', 'Player deleted');
+            $em->remove($player);
+            $em->flush();
 
-        return $this->redirectToRoute('show_admin');
+            $this->addFlash('notice', 'Player deleted');
+
+            return $this->redirectToRoute('show_admin');
+        }
+        return ['form' => $form->createView()];
     }
 
     /**
@@ -489,11 +625,13 @@ class AdminController extends Controller
         $obj = $em->getRepository('AppBundle:Team')
             ->findAllAjax($data);
 
+        $countObj = count($obj);
+
         if (!$obj) {
             $err = 'ERROR: Not found!!!';
         }
 
-        return ['data' => $obj, 'err' => $err];
+        return ['data' => $obj, 'count' => $countObj, 'err' => $err];
 
     }
 

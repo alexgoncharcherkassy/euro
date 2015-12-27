@@ -64,7 +64,7 @@
 
                 <form class="navbar-form navbar-right" role="search" action="{{ path('search_show') }}" method="POST">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" id="lastnameinput" name="data">
+                        <input type="text" class="form-control" placeholder="Search" id="infofield" name="data">
                     </div>
                     <button type="submit" class="btn btn-default">Search</button>
                 </form>
@@ -72,7 +72,7 @@
             <!--/.nav-collapse -->
         </div>
     </div>
-    <div id="lastnamebox"></div>
+    <div id="infobox"></div>
 
     {% block content %}
 
@@ -81,111 +81,7 @@
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
-   {# <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-     <script>
-        var lnbox = {
-            // Ссылка на DOM элемент поля ввода
-            lninput: null,
-            // Ссылка на DOM элемент всплывающего div'а
-            lnelement: null,
 
-            // Массив полученных фамилий
-            lastnames: new Array(),
-
-            // Объект XmlHttpRequest, для передачи данных (ajax)
-            httpreq: window.XMLHttpRequest ?
-                    new XMLHttpRequest() :
-                    new ActiveXObject("Microsoft.XMLHTTP"),
-
-
-            // Функция инициализации (выполняется по загрузке body)
-            init: function() {
-                // Устанавливаем ссылку на форму ввода
-                this.lnelement = document.getElementById('lastnamebox');
-
-                // Устанавливаем ссылку на вслывающий div
-                this.lninput   = document.getElementById('lastnameinput');
-
-                // Устанавливаем обработчик событий нажатой (точнее отпущенной)
-                // клавиши на форму ввода
-                this.lninput.onkeyup = function(e) {
-                    lnbox.process(e);
-                }
-
-                // Устанавливаем обработчик ответа сервера
-                this.httpreq.onreadystatechange = function() {
-                    if (lnbox.httpreq.readyState == 4)
-                        lnbox.updateBox(lnbox.httpreq.responseText);
-                }
-            },
-
-
-            // Функция запроса на сервер, параметр text - текст из поля ввода
-            requestUpdate: function(text) {
-                // Посылаем методом GET
-        //        var url = Routing.generate('search_show_ajax', {data : text});
-
-          //      $.post(url, text);
-                this.httpreq.open("POST", Routing.generate('search_show_ajax', {'data' : text}));
-                this.httpreq.send(null);
-            },
-
-
-            // Функция обновления div'а с фамилиями, вызывается при ответе
-            // с сервера, т.е обработчик ответа
-            updateBox: function(answer) {
-                // Полученный ответ парсим в js массив (подробнее читай JSON)
-                this.lastnames = eval(answer);
-
-                // Если пустой ответ - выходим из функции
-                if(this.lastnames.length <= 0) return false;
-
-                // Показываем div
-                this.lnelement.style.display = 'block';
-
-                // Отчищаем элемент от содержания
-                this.lnelement.innerHTML = "";
-
-                // Проходим циклом по массиву фамилий
-                for(var i = 0; i < this.lastnames.length; i++)
-                {
-                    // Создаем элемент - тег <a>
-                    var lnk = document.createElement('a');
-
-                    // Ставим заглушку в качестве ссылки
-                    lnk.href = "javascript://";
-
-                    // Устанавливаем содержанием текущую фамилию
-                    lnk.innerHTML = this.lastnames[i];
-
-                    // Ставим событие при щелчке на ссылку изменяется
-                    // текст в форме ввода
-                    lnk.onclick = function() {
-                        lnbox.lninput.value = this.innerHTML;
-
-                        // Прячем div
-                        lnbox.lnelement.innerHTML = '';
-                        lnbox.lnelement.style.display = 'none';
-                    }
-
-                    // Присоединяем элемент к div'у с ссылками
-                    this.lnelement.appendChild(lnk);
-                }
-            },
-
-
-            // Функция обработки события нажания (точнее отпускания) клавиши
-            // на поле ввода
-            process: function(event) {
-                var key = window.event ? window.event.keyCode : (event.keyCode ? event.keyCode : (event.which ? event.which : null))
-
-                // Если введено меньше 2х символов не обрабатываем
-                if(this.lninput.value.length > 2)
-                    this.requestUpdate(this.lninput.value);
-            }
-        }
-    </script>#}
 {% endblock %}
 </body>
 </html>

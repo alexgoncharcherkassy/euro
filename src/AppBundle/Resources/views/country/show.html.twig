@@ -4,14 +4,12 @@
 
     <div class="container">
         <div class="jumbotron">
-{% for country in countries %}
             <p>
-                Country:   {{ country.fullTitle }}
+                Country:   {{ countries.fullTitle }}
             </p>
             <p>
-                {{ country.description }}
+                {{ countries.description }}
             </p>
-{% endfor %}
         </div>
     </div> <!-- /container -->
 

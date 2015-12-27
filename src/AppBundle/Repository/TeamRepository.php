@@ -55,9 +55,9 @@ class TeamRepository extends EntityRepository
     {
         return $this->createQueryBuilder('t')
             ->select('t, p, c, cn')
-            ->join('t.players', 'p')
-            ->join('t.coaches', 'c')
-            ->join('t.countries', 'cn')
+            ->leftJoin('t.players', 'p')
+            ->leftJoin('t.coaches', 'c')
+            ->leftJoin('t.countries', 'cn')
             ->where('t.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
