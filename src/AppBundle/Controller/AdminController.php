@@ -628,7 +628,7 @@ class AdminController extends Controller
         $countObj = count($obj);
 
         if (!$obj) {
-            $err = 'ERROR: Not found!!!';
+            $err = 'Message: Not found!!!';
         }
 
         return ['data' => $obj, 'count' => $countObj, 'err' => $err];
