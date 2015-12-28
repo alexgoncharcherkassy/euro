@@ -13,6 +13,7 @@ use AppBundle\Form\CountryType;
 use AppBundle\Form\GameType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Form\TeamType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -256,7 +257,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/delete/team/{id}", name="team_delete_admin")
+     * @Route("/admin/delete/team/{id}", name="team_delete_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/removeUpdate.html.twig")
      */
     public function deleteTeamAction(Request $request, $id = null)
@@ -340,7 +341,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/delete/team/elements/{id}", name="elements_delete_admin")
+     * @Route("/admin/delete/team/elements/{id}", name="elements_delete_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/removeUpdateElement.html.twig")
      */
     public function deleteTeamElemwntsAction(Request $request, $id)
@@ -381,7 +382,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/delete/country/{id}", name="country_delete_admin")
+     * @Route("/admin/delete/country/{id}", name="country_delete_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/del.html.twig")
      */
     public function deleteCountryAction(Request $request, $id = null)
@@ -414,7 +415,7 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/delete/coach/{id}", name="coach_delete_admin")
+     * @Route("/admin/delete/coach/{id}", name="coach_delete_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/del.html.twig")
      */
     public function deleteCoachAction(Request $request, $id = null)
@@ -446,7 +447,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/delete/player/{id}", name="player_delete_admin")
+     * @Route("/admin/delete/player/{id}", name="player_delete_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/del.html.twig")
      */
     public function deletePlayerAction(Request $request, $id = null)
@@ -479,7 +480,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/update/team/{id}", name="team_update_admin")
+     * @Route("/admin/update/team/{id}", name="team_update_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/updateForm.html.twig")
      */
     public function updateTeamAction(Request $request, $id)
@@ -508,7 +509,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/update/country/{id}", name="country_update_admin")
+     * @Route("/admin/update/country/{id}", name="country_update_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/updateForm.html.twig")
      */
     public function updateCountryAction(Request $request, $id)
@@ -537,7 +538,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/update/coach/{id}", name="coach_update_admin")
+     * @Route("/admin/update/coach/{id}", name="coach_update_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/updateForm.html.twig")
      */
     public function updateCoachAction(Request $request, $id)
@@ -566,7 +567,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/update/player/{id}", name="player_update_admin")
+     * @Route("/admin/update/player/{id}", name="player_update_admin", requirements={"id" : "\d+"})
      * @Template("@App/admin/updateForm.html.twig")
      */
     public function updatePlayerAction(Request $request, $id)
